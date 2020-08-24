@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30320.27
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{AEEAED1C-1CFE-40A0-AEAE-780695F94830}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{0D8C81B3-CEFE-42D5-96DF-4B5BDEEFC1D5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{1F736508-93BB-4C0D-8BBE-2C04B17D95DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cim.Test", "Cim.Test\Cim.Test.csproj", "{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cim.Manager", "Cim.Manager\Cim.Manager.csproj", "{A16814C2-B419-4161-975F-82B759E6B09B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cim", "Cim\Cim.csproj", "{8028222F-B7A1-4B0B-B711-63B109862E76}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tectone", "Tectone", "{6792CF42-6055-4FC5-A38B-095351169AD8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tectone.Common", "..\..\..\..\core-dotnet\Tectone.Common\Tectone.Common.csproj", "{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tectone.Wpf.Telerik2019_3_1023", "..\..\..\..\core-dotnet\Tectone.Wpf.Telerik2019_3_1023\Tectone.Wpf.Telerik2019_3_1023.csproj", "{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A16814C2-B419-4161-975F-82B759E6B09B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A16814C2-B419-4161-975F-82B759E6B09B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A16814C2-B419-4161-975F-82B759E6B09B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A16814C2-B419-4161-975F-82B759E6B09B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8028222F-B7A1-4B0B-B711-63B109862E76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8028222F-B7A1-4B0B-B711-63B109862E76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8028222F-B7A1-4B0B-B711-63B109862E76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8028222F-B7A1-4B0B-B711-63B109862E76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36BC2E3E-05F3-46D9-8F0B-D030074AEF6A} = {1F736508-93BB-4C0D-8BBE-2C04B17D95DE}
+		{A16814C2-B419-4161-975F-82B759E6B09B} = {AEEAED1C-1CFE-40A0-AEAE-780695F94830}
+		{8028222F-B7A1-4B0B-B711-63B109862E76} = {0D8C81B3-CEFE-42D5-96DF-4B5BDEEFC1D5}
+		{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A} = {6792CF42-6055-4FC5-A38B-095351169AD8}
+		{DDF3ABDC-76B9-4AB2-9AD2-BA561BEF8585} = {6792CF42-6055-4FC5-A38B-095351169AD8}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8C739902-667D-44B0-B7A9-8926FB2B52CC}
+	EndGlobalSection
+EndGlobal
