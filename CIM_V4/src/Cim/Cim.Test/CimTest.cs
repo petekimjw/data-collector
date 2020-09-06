@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CIM.Driver;
-using CIM.Manager;
-using CIM.Model;
+using Cim.Driver;
+using Cim.Manager;
+using Cim.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cim.Test
@@ -24,16 +24,16 @@ namespace Cim.Test
             var controller = new Controller { Name = deviceName };
             var addressMaps = new List<AddressMap>
             {
-                new ModbusAddressMap("Device", "1", "1", 1, 1, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "2", "2",  1, 1, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "3", "3",  1, 1, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "4", "4",  1, 1, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "5", "5",  1, 1, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "6", "7.1",  1, 1, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "7", "7.2",  1, 1, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "8", "7.3",  1, 1, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "1", "1", 1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "2", "2",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "3", "3",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "4", "4",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "5", "5",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "6", "7.1",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "7", "7.2",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Device", "8", "7.3",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
             };
-            var client = new ControllerManager(controller, addressMaps);
+            //var client = new ControllerManager(controller, addressMaps);
 
             //await client.ReadAddressMap(addressMaps, true);
         }
@@ -54,9 +54,18 @@ namespace Cim.Test
                 new AddressMap(deviceName, "7", "D7.2"),
                 new AddressMap(deviceName, "8", "D7.3"),
             };
-            var client = new ControllerManager(controller, addressMaps);
+            //var client = new ControllerManager(controller, addressMaps);
 
             //client.ReadAddressMap(addressMaps, true);
         }
+
+        [TestMethod]
+        public void ConfigManager_초기화테스트()
+        {
+            var config = new DefaultConfigManager();
+            config.Init();
+        }
+
+
     }
 }

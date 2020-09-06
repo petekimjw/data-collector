@@ -1,0 +1,373 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:to="http://www.tectone.co.kr" xmlns:wpf="http://www.tectone.co.kr/wpf"
+                    mc:Ignorable="d">
+    <!--  LG스마트체2.0 Regular  -->
+    <!--<Style TargetType="TextBlock" >
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+    </Style>-->
+
+    <Style TargetType="TextBox" >
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+    </Style>
+
+    <!--Blue #FF5B9BD5-->
+    <!--Lime B200FF00-->
+    <SolidColorBrush x:Key="PVBrush" Color="#FF5B9BD5" />
+    <!--Orange #FFED7D31-->
+    <!--Red Read-->
+    <!--Blue #B2283AFF-->
+    <SolidColorBrush x:Key="SVBrush" Color="#FFED7D31" />
+
+    <Style x:Key="SplitBorderStyle" TargetType="Border">
+        <Setter Property="Width" Value="2" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="BorderBrush" Value="#30FFFFFF" />
+        <Setter Property="BorderThickness" Value="0,0,2,0" />
+    </Style>
+
+
+    <Style x:Key="TitleBorderStyle" TargetType="Border">
+        <Setter Property="Width" Value="4" />
+        <Setter Property="Height" Value="15" />
+        <Setter Property="Margin" Value="10 0" />
+        <Setter Property="BorderBrush" Value="{telerik1:GreenResource ResourceKey=StrongBrush}" />
+        <Setter Property="BorderThickness" Value="5 0 5 0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+    <Style x:Key="IconTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="20 0 0 0" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
+    </Style>
+    <Style
+        x:Key="SmallIconTextBlockStyle" BasedOn="{StaticResource IconTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style
+        x:Key="NormalIconTextBlockStyle"
+        BasedOn="{StaticResource IconTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18" />
+    </Style>
+    <Style
+        x:Key="LargeIconTextBlockStyle"
+        BasedOn="{StaticResource IconTextBlockStyle}"
+        TargetType="TextBlock">
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+    <Style x:Key="RegularIconTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="20 0 0 0" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-regular-400.ttf#Font Awesome 5 Free Regular" />
+    </Style>
+    <Style x:Key="BrandIconTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="20 0 0 0" />
+        <Setter Property="Width" Value="25" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-brands-400.ttf#Font Awesome 5 Brands Regular" />
+    </Style>
+
+    <Style x:Key="IconButtonStyle" BasedOn="{StaticResource ButtonStyle}" TargetType="Button">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+        <Setter Property="Foreground" Value="{telerik:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
+    </Style>
+    <Style x:Key="SmallIconButtonStyle" BasedOn="{StaticResource IconButtonStyle}" TargetType="Button">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Margin" Value="0 0" />
+    </Style>
+    <Style x:Key="NormalIconButtonStyle" BasedOn="{StaticResource IconButtonStyle}" TargetType="Button">
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="Margin" Value="0 0" />
+    </Style>
+    <Style x:Key="LargeIconButtonStyle" BasedOn="{StaticResource IconButtonStyle}" TargetType="Button">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="Margin" Value="0 0" />
+    </Style>
+
+    <Style x:Key="TitleTextBlockStyle" TargetType="TextBlock" >
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="ExtraBold" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Bold" />
+        <Setter Property="Margin" Value="20 0 20 0" />
+    </Style>
+    <Style x:Key="TitleTextBlockStyle2" BasedOn="{StaticResource TitleTextBlockStyle}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+    <Style x:Key="TitleTextBlockStyle3" BasedOn="{StaticResource TitleTextBlockStyle}" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+    </Style>
+
+    <Style x:Key="FormTextBlockStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Width" Value="150" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="Margin" Value="20 0 20 0" />
+    </Style>
+
+    <Style x:Key="FormTextBlockStyle2" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="FontFamily" Value="Arial Narrow" />
+        <Setter Property="Width" Value="52" />
+        <Setter Property="Margin" Value="20 0 20 0" />
+    </Style>
+
+    <Style x:Key="FormTextBoxStyle" BasedOn="{StaticResource TextBoxStyle}" TargetType="TextBox">
+        <Setter Property="Margin" Value="3 2 2 2" />
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontSize" Value="18" />
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Foreground" Value="Green" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="FormTextBoxStyle2" BasedOn="{StaticResource TextBoxStyle}" TargetType="TextBox">
+        <!--<Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />-->
+        <Setter Property="Margin" Value="10 2 2 2" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Width" Value="250" />
+    </Style>
+
+    <Style x:Key="FormLabelTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="{telerik1:GreenResource ResourceKey=MainBrush}" />
+        <Setter Property="BorderBrush" Value="{telerik1:GreenResource ResourceKey=MainBrush}" />
+        <Setter Property="Foreground" Value="{telerik1:GreenResource ResourceKey=MarkerBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Padding" Value="4" />
+
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="CaretBrush" Value="{telerik1:GreenResource ResourceKey=MainBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Validation.ErrorTemplate" Value="{StaticResource ValidationTooltipTemplate}" />
+
+        <Setter Property="Width" Value="150" />
+        <Setter Property="Margin" Value="10 3 0 0" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Top" />
+        <Setter Property="IsReadOnly" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <StackPanel x:Name="root" Orientation="Horizontal">
+                        <Border Margin="2 0" Style="{StaticResource TitleBorderStyle}" />
+                        <ScrollViewer x:Name="PART_ContentHost"
+                                      Margin="{TemplateBinding BorderThickness}" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      Background="Transparent" BorderBrush="Transparent" BorderThickness="0" Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}" />
+                    </StackPanel>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="FormLabelTextBoxStyle2" TargetType="{x:Type TextBox}" BasedOn="{StaticResource FormLabelTextBoxStyle}">
+        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTB.ttf#LG스마트체2.0 Bold" />
+    </Style>
+
+    <Style x:Key="FormNumericUpDownStyle" BasedOn="{StaticResource RadNumericUpDownStyle}" TargetType="telerik:RadNumericUpDown">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="Background" Value="White" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Margin" Value="5 2 2 2" />
+        <Setter Property="Width" Value="150" />
+    </Style>
+
+    <!--#region EmptyDataTemplate-->
+    <DataTemplate x:Key="EmptyDataTemplate">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Text="{Binding Strings.NoData, Source={StaticResource Loc}}"
+                       Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top"
+                       FontSize="11" />
+        </Grid>
+    </DataTemplate>
+    <!--#endregion-->
+
+    <Style x:Key="WindowBorderStyle1" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FF23AAFF" />
+        <Setter Property="BorderThickness" Value="2 2 2 2" />
+    </Style>
+    <Style x:Key="WindowBorderStyle2" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FFDC681B" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+    <Style x:Key="WindowBorderStyle3" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#FF9D0D39" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <!--  로딩 인디게이터 배경 스타일  -->
+    <Style x:Key="RadBusyIndicatorBackgroundStyle" TargetType="Rectangle">
+        <Setter Property="Fill" Value="#99000000" />
+        <!--<Setter Property="Fill" Value="Transparent" />-->
+    </Style>
+
+    <DataTemplate x:Key="BusyContentDataTemplate">
+        <Grid Margin="2" DataContext="{Binding DataContext, ElementName=LayoutRoot}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="1" Text="{Binding BusyMessage}" Margin="5" HorizontalAlignment="Center" />
+
+        </Grid>
+    </DataTemplate>
+
+    <!--#region Telerik-->
+
+    <Style
+        x:Key="RowNumColumnStyle"
+        BasedOn="{StaticResource GridViewCellStyle}"
+        TargetType="telerik:GridViewCell">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
+    </Style>
+
+    <ControlTemplate x:Key="IdTooltipTemplate">
+        <TextBlock
+            Margin="-5,-3"
+            Padding="5"
+            HorizontalAlignment="Center"
+            Background="#FF303641"
+            Foreground="White">
+            <Run Text="ID: " />
+            <Run Text="{Binding Id}" />
+        </TextBlock>
+    </ControlTemplate>
+
+    <Style BasedOn="{StaticResource RadGridViewStyle}" TargetType="telerik:RadGridView">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#FFd6d4d4" />
+
+        <Setter Property="CanUserFreezeColumns" Value="False" />
+        <Setter Property="CanUserInsertRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="True" />
+        <Setter Property="CanUserResizeColumns" Value="True" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+
+        <Setter Property="GridLinesVisibility" Value="Both" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+
+        <Setter Property="RowHeight" Value="30" />
+        <Setter Property="RowIndicatorVisibility" Value="Collapsed" />
+
+        <Setter Property="SelectionMode" Value="Extended" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="ShowGroupPanel" Value="False" />
+        <Setter Property="ValidatesOnDataErrors" Value="None" />
+
+    </Style>
+
+    <Style BasedOn="{StaticResource RadTreeListViewStyle}" TargetType="telerik:RadTreeListView">
+        <Setter Property="AutoGenerateColumns" Value="False" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#FFd6d4d4" />
+
+        <Setter Property="CanUserFreezeColumns" Value="False" />
+        <Setter Property="CanUserInsertRows" Value="False" />
+        <Setter Property="CanUserReorderColumns" Value="True" />
+        <Setter Property="CanUserResizeColumns" Value="True" />
+        <Setter Property="CanUserSortColumns" Value="True" />
+
+        <Setter Property="GridLinesVisibility" Value="Both" />
+        <Setter Property="IsReadOnly" Value="True" />
+        <Setter Property="IsSynchronizedWithCurrentItem" Value="True" />
+
+        <Setter Property="RowHeight" Value="30" />
+        <Setter Property="RowIndicatorVisibility" Value="Collapsed" />
+
+        <Setter Property="SelectionMode" Value="Extended" />
+        <Setter Property="SelectionUnit" Value="FullRow" />
+        <Setter Property="ShowGroupPanel" Value="False" />
+        <Setter Property="ValidatesOnDataErrors" Value="None" />
+
+    </Style>
+
+    <Style TargetType="telerik:GridViewDataColumn">
+        <Setter Property="HeaderTextAlignment" Value="Center" />
+    </Style>
+
+    <Style BasedOn="{StaticResource RadTreeViewStyle}" TargetType="telerik:RadTreeView">
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="#FFd6d4d4" />
+
+        <Setter Property="SelectionMode" Value="Single" />
+
+        <Setter Property="IsLineEnabled" Value="True" />
+    </Style>
+
+    <Style
+        x:Key="RedDesktopAlertStyle"
+        BasedOn="{StaticResource RadDesktopAlertStyle}"
+        TargetType="telerik:RadDesktopAlert">
+        <Setter Property="Background" Value="DarkRed" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style
+        x:Key="YellowDesktopAlertStyle"
+        BasedOn="{StaticResource RadDesktopAlertStyle}"
+        TargetType="telerik:RadDesktopAlert">
+        <Setter Property="Background" Value="YellowGreen" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+    <Style
+        x:Key="BlueDesktopAlertStyle"
+        BasedOn="{StaticResource RadDesktopAlertStyle}"
+        TargetType="telerik:RadDesktopAlert">
+        <Setter Property="Background" Value="CadetBlue" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+
+    <!--#endregion-->
+
+</ResourceDictionary>

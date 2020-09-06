@@ -1,0 +1,96 @@
+﻿<Window
+    x:Class="Cim.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:to="http://www.tectone.co.kr" 
+    xmlns:local="clr-namespace:Cim.Manager" xmlns:view="clr-namespace:Cim.Manager.Views"  Title="Cim V4" Width="800" Height="450"
+    Icon="lg.ico" Left="0" Top="0" WindowStyle="None" ResizeMode="CanResizeWithGrip" UseLayoutRounding="True" WindowStartupLocation="Manual"
+    DataContext="{to:MvvmInstance local:ShellViewModel}"
+    Loaded="{to:XEvent Navigate, Manager.Views.ControllerView}"
+
+    mc:Ignorable="d">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0" ResizeBorderThickness="5" />
+    </WindowChrome.WindowChrome>
+    
+    <Window.Resources>
+        <to:ElementSpy x:Key="spy" DataContext="{Binding}" />
+    </Window.Resources>
+
+    <Grid x:Name="LayoutRoot"  Background="{telerik:GreenResource ResourceKey=PrimaryBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border x:Name="SideBorder"
+                Grid.RowSpan="4" Grid.ColumnSpan="2"
+                Style="{StaticResource WindowBorderStyle1}" />
+
+        <Border x:Name="Header"
+                Height="40" Margin="2"
+                Background="{telerik:GreenResource ResourceKey=PrimaryBrush}" MouseLeftButtonDown="{to:XEvent Header_MouseLeftButtonDown, $this, $e}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.ColumnSpan="4" BorderBrush="#CC1e252f" BorderThickness="0 0 0 2" />
+
+                <StackPanel x:Name="LogoPanel"
+                            Grid.Column="1" Margin="10 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Horizontal">
+                    <Image x:Name="LogoImage"
+                           Height="20" Margin="0" VerticalAlignment="Center"
+                           Source="/Cim;component/Resources/Image/PIE.png" Stretch="UniformToFill" />
+                    <Border Style="{StaticResource SplitBorderStyle}" />
+                    <TextBlock Text="Cim V4" Style="{StaticResource TitleTextBlockStyle}" FontSize="16" />
+
+                </StackPanel>
+
+                <Border x:Name="DebugPanel" Grid.Column="2" Visibility="Visible">
+                    <StackPanel Margin="10 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+
+                        <Button Content="Test1" Click="{to:XEvent Test1}"/>
+                        <Button Content="Test2" Click="{to:XEvent Test2}"/>
+              
+                    </StackPanel>
+                </Border>
+
+                <Border x:Name="ButtonPanel" Grid.Column="3">
+                    <StackPanel Margin="10 0 0 0" HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal">
+
+                        <Border Style="{StaticResource SplitBorderStyle}" />
+
+                        <Button x:Name="MinimizeButton" Content="&#xF2D1;"
+                                Margin="0 0 0 0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Click="{to:XEvent MinimizeWindow}" />
+                        <Button x:Name="MaximizeButton" Content="&#xF2D0;"
+                                Margin="0 0 0 0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Click="{to:XEvent MaximizeWindow}" />
+                        <Button x:Name="RestoreMaxButton" Content="&#xF2D2;"
+                                Margin="0 0 0 0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Click="{to:XEvent RestoreMaxWindow}"
+                                Visibility="Collapsed" />
+                        <Button x:Name="CloseButton" Content="&#xF00D;"
+                                Margin="0 0 5 0"
+                                Style="{StaticResource SmallIconButtonStyle}"
+                                Click="{to:XEvent CloseWindow}" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Frame x:Name="MainFrame" Grid.Row="1" NavigationUIVisibility="Hidden" Margin="3"/>
+
+        <telerik1:RadBusyIndicator x:Name="BusyIndicator"
+                Grid.Row="2" Grid.RowSpan="3" Grid.ColumnSpan="3" Margin="5" 
+                OverlayStyle="{StaticResource RadBusyIndicatorBackgroundStyle}" BusyContentTemplate="{StaticResource BusyContentDataTemplate}"
+                d:IsHidden="True"
+                Foreground="#ffff" IsBusy="{Binding IsBusy, FallbackValue=True}" />
+    </Grid>
+</Window>

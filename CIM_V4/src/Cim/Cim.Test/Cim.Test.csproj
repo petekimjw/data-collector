@@ -82,8 +82,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CimTest.cs" />
-    <Compile Include="ExcelTest.cs" />
+    <Compile Include="ClosedXMLTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ExcelAddressMapServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="AddressMap_TEST_MELSEC.xlsm">
@@ -99,13 +100,17 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\core-dotnet\Tectone.Common\Tectone.Common.csproj">
+      <Project>{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}</Project>
+      <Name>Tectone.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cim.Domain\Cim.Domain.csproj">
+      <Project>{8028222f-b7a1-4b0b-b711-63b109862e76}</Project>
+      <Name>Cim.Domain</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Cim.Manager\Cim.Manager.csproj">
       <Project>{a16814c2-b419-4161-975f-82b759e6b09b}</Project>
       <Name>Cim.Manager</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Cim\Cim.csproj">
-      <Project>{8028222f-b7a1-4b0b-b711-63b109862e76}</Project>
-      <Name>Cim</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
