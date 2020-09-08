@@ -25,7 +25,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "구축Site", "구축Site", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OChang.AutoCotnrol.Pie", "OChang.AutoCotnrol.Pie\OChang.AutoCotnrol.Pie.csproj", "{E37A9233-68CC-42EC-B7B0-BDA66637F7BF}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "오창 자동보정 PIE", "오창 자동보정 PIE", "{4B9BB879-B008-4BF9-A9B2-CADFF2C132D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2020.09 오창 자동보정 PIE 샘플", "2020.09 오창 자동보정 PIE 샘플", "{4B9BB879-B008-4BF9-A9B2-CADFF2C132D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OChang.AutoControl.PIe.Test", "OChang.AutoControl.PIe.Test\OChang.AutoControl.PIe.Test.csproj", "{81470A9E-94D0-45CF-8814-F2B6A8C608B3}"
 EndProject

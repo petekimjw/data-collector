@@ -14,6 +14,9 @@ namespace Cim.Manager.Views
     public class ControllerViewModel : ViewModelBase
     {
 
+        #region 초기화
+
+        #region 속성
         public virtual ObservableCollection<ControllerManagerBase> ControllerManagers { get; set; }
 
         public virtual ControllerManagerBase SelectedControllerManager { get; set; }
@@ -23,6 +26,7 @@ namespace Cim.Manager.Views
         public virtual ObservableCollection<AddressData> SelectedAddressDatas { get; set; }
 
         private ConfigManagerBase configManager = null;
+        #endregion
 
         public ControllerViewModel()
         {
@@ -44,6 +48,9 @@ namespace Cim.Manager.Views
                 }
             }
         }
+        #endregion
+
+        #region DataCollect_DataReceived
 
         private void DataCollect_DataReceived(object sender, AddressDataReceivedEventArgs e)
         {
@@ -53,6 +60,8 @@ namespace Cim.Manager.Views
                 if (addressData != null)
                     addressData.Value = item.Value;
             }
-        }
+        } 
+
+        #endregion
     }
 }

@@ -38,7 +38,7 @@ namespace Cim.Test
             for (int i = 3; i < 10; i++)
             {
                 sheet.Cell($"A{i}").Value = "item2";
-                sheet.Cell($"B{i}").Value = $"D1{i}";
+                sheet.Cell($"B{i}").Value = $"1{i}";
             }
             sheet.Workbook.Save();
 

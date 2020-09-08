@@ -253,6 +253,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>TelerikResource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Content Include="AddressMap_Modbus_Test.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

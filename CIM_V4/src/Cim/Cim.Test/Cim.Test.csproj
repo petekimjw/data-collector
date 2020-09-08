@@ -87,10 +87,10 @@
     <Compile Include="ExcelAddressMapServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AddressMap_TEST_MELSEC.xlsm">
+    <Content Include="AddressMap_Melsec_V3.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="AddressMap_TEST_MODBUS.xlsm">
+    <Content Include="AddressMap_Modbus_V3.xlsm">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="AddressMap_New.xlsx">

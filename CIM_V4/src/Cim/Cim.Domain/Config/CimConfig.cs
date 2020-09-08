@@ -21,6 +21,9 @@ namespace Cim.Config
 
         [ConfigurationProperty("csvFile")]
         public CsvFileElement CsvFile => (CsvFileElement)base["csvFile"];
+
+        [ConfigurationProperty("mq")]
+        public MqElement Mq => (MqElement)base["mq"];
     }
 
     public class CsvFileElement : ConfigurationElement
@@ -55,4 +58,55 @@ namespace Cim.Config
         }
     }
 
+    public class MqElement : ConfigurationElement
+    {
+        [ConfigurationProperty("userName", IsRequired = true)]
+        public string UserName
+        {
+            get => (string)base["userName"];
+            set => base["userName"] = value;
+        }
+
+        [ConfigurationProperty("password", IsRequired = true)]
+        public string Password
+        {
+            get => (string)base["password"];
+            set => base["password"] = value;
+        }
+
+        [ConfigurationProperty("virtualHost", IsRequired = true)]
+        public string VirtualHost
+        {
+            get => (string)base["virtualHost"];
+            set => base["virtualHost"] = value;
+        }
+
+        [ConfigurationProperty("hostname", IsRequired = true)]
+        public string HostName
+        {
+            get => (string)base["hostname"];
+            set => base["hostname"] = value;
+        }
+
+        [ConfigurationProperty("hostnames")]
+        public string HostNames
+        {
+            get => (string)base["hostnames"];
+            set => base["hostnames"] = value;
+        }
+
+        [ConfigurationProperty("port", IsRequired = true)]
+        public int Port
+        {
+            get => (int)base["port"];
+            set => base["port"] = value;
+        }
+
+        [ConfigurationProperty("exchange", IsRequired = true)]
+        public string Exchange
+        {
+            get => (string)base["exchange"];
+            set => base["exchange"] = value;
+        }
+    }
 }
