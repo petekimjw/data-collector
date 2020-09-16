@@ -1,11 +1,14 @@
-﻿using Cim.Model;
+﻿using Cim.Domain.Model;
 using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
+using DocumentFormat.OpenXml.Wordprocessing;
 using NLog;
 using System;
 using System.Collections.Generic;
 using Tectone.Common.Extensions;
+using DataType = Cim.Domain.Model.DataType;
 
-namespace Cim.Service
+namespace Cim.Domain.Service
 {
     /// <summary>
     /// 엑셀에서 AddressMap 부분을 파싱
@@ -29,23 +32,26 @@ namespace Cim.Service
             {
                 int index = -1;
                 string cell = null;
+                string cell2 = null;
                 int intCell = -1;
                 DataType dataType = DataType.None;
                 AddressMapParseErrors = new List<(string, string)>();
                 List<string> metaDataColumns = columns.DeepCopy(); //필수항목을 뺀 metaDatas 파싱할 항목
 
-                //VariableId
-                (index, cell) = ParseVariableId(columns, row);
+                //VariableId, VariableName
+                (index, cell, cell2) = ParseVariableIdAndName(columns, row);
                 if (!string.IsNullOrEmpty(cell))
                 {
                     input.VariableId = cell;
+                    input.VariableName = cell2;
                     metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cell2);
                 }
                 //Address
                 (index, cell) = ParseAddress(columns, row);
                 if (!string.IsNullOrEmpty(cell))
                 {
-                    input.VariableId = cell;
+                    input.Address = cell;
                     metaDataColumns.Remove(cell);
                 }
 
@@ -73,7 +79,6 @@ namespace Cim.Service
                     metaDataColumns.Remove(cell);
                 }
 
-
                 #region MetaDatas (아직 파싱안한 컬럼(metaDataColumns)을 파싱)
 
                 input.MetaDatas = new Dictionary<string, string>();
@@ -92,8 +97,10 @@ namespace Cim.Service
             return input;
         }
 
-        public virtual (int, string) ParseVariableId(List<string> columns, IXLTableRow row)
+        public virtual (int, string, string) ParseVariableIdAndName(List<string> columns, IXLTableRow row)
         {
+            int index2 = -1;
+            string cell2 = null;
             (var index, var cell) = GetCellValue(columns, row, "variable,변수");
             if (index == -1)
             {
@@ -105,11 +112,29 @@ namespace Cim.Service
             }
             else
             {
-                //특수문자, 공백 제거
-                cell = cell.Replace(" ", "_");
+                //VariableName에는 VariableId 수정전 문자를 할당
+                (index2, cell2) = GetCellValue(columns, row, "variablename,변수이름");
+                if (index2 != -1)
+                {
+                    if (string.IsNullOrEmpty(row.Field(index2).Value.ToString()))
+                        row.Field(index2).Value = cell;
+                }
+
+                //특수문자(&,',",<,>,%,#,$), 공백 제거
+                var temp = cell.Replace(" ", "_");
+                foreach (var item in EscapeCharacters)
+                {
+                    temp = temp.Replace(item, "");
+                }
+                if (temp != cell)
+                {
+                    cell = temp;
+                    row.Field(index).Value = temp;
+                    SetWarningCell(row.Field(index), "");
+                }
             }
 
-            return (index, cell);
+            return (index, cell, cell2);
         }
 
         public virtual (int, string) ParseAddress(List<string> columns, IXLTableRow row)

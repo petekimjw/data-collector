@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Tectone.Common.Mvvm;
 
-namespace Cim.Driver
+namespace Cim.Domain.Driver
 {
 
     public class MelsecDriver : BindableBase, IDriver

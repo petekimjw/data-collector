@@ -1,8 +1,8 @@
-﻿using Cim.Model;
+﻿using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
 
-namespace Cim.Model
+namespace Cim.Domain.Model
 {
     public class AddressDataReceivedEventArgs : EventArgs
     {

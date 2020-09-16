@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Tectone.Common.Mvvm;
 
-namespace Cim.Driver
+namespace Cim.Domain.Driver
 {
     /// <summary>
     /// Modbus Function Code. Bit(CoilStatus = 0, InputStatus=1) Word(InputRegister = 2, HoldingRegister =3)
@@ -35,6 +35,14 @@ namespace Cim.Driver
             ReceiveTimeout = receiveTimeout;
 
             Open();
+            retryTimer.Elapsed += RetryTimer_Elapsed;
+            retryTimer.Start();
+        }
+
+        private void RetryTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (Status != DriverStatus.Connected)
+                RetryOpen();
         }
 
         protected IModbusMaster CreateModbusClient(string ip, int port, int receiveTimeout)
@@ -165,6 +173,7 @@ namespace Cim.Driver
             {
                 logger.Error($"ex.HResult={ex.HResult}, slaveId={slaveId}, startAddress={startAddress}, count={count}, ex={ex}");
                 error = ex.HResult;
+                Status = DriverStatus.Error;
             }
 
             return (error, results);

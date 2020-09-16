@@ -1,4 +1,4 @@
-﻿using Cim.Driver;
+﻿using Cim.Domain.Driver;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tectone.Common.Mvvm;
 
-namespace Cim.Model
+namespace Cim.Domain.Model
 {
     /// <summary>
     /// 빅인디언, 리틀인디언등을 따지는 32bit 바이트오더. 8bit는 16진수로 표현된다.

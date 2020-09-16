@@ -1,11 +1,11 @@
 ﻿using System.Threading.Tasks;
 
-namespace Cim.Driver
+namespace Cim.Domain.Driver
 {
     /// <summary>
     /// Driver를 통해 장비연결상태(None, Disconnected, Connected)
     /// </summary>
-    public enum DriverStatus { None, Disconnected, Connected }
+    public enum DriverStatus { None, Disconnected, Connected, Error }
 
     public interface IDriver
     {

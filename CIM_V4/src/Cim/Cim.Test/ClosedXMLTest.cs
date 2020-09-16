@@ -1,5 +1,5 @@
-﻿using Cim.Model;
-using Cim.Service;
+﻿using Cim.Domain.Model;
+using Cim.Domain.Service;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Bibliography;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

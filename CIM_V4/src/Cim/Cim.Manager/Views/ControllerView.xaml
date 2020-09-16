@@ -19,26 +19,33 @@
             <telerik:RadRibbonTab Header="CIM" IsSelected="True">
 
                 <telerik:RadRibbonGroup DefaultVariant="Large" Header="AddressMap">
-                    <telerik:RadRibbonButton x:Name="ReloadAddressMapButton" Size="Large" Text="ReloadAddressMap">
+                    <telerik:RadRibbonButton x:Name="ReloadAddressMapButton" Size="Large" Text="ReloadAddressMap" Click="{to:XEvent ReloadAddressMapAndCreateManager}">
                         <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xf56f;" />
                     </telerik:RadRibbonButton>
 
                 </telerik:RadRibbonGroup>
 
                 <telerik:RadRibbonGroup DefaultVariant="Large" Header="Controller">
-                    <telerik:RadRibbonButton x:Name="StartButton" Size="Large" Text="Start" Width="80">
+                    <telerik:RadRibbonButton x:Name="StartButton" Size="Large" Text="Start" Width="80" Click="{to:XEvent Start}">
                         <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xF04B;" />
                     </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton x:Name="StopButton" Size="Large" Text="Stop" Width="80">
+                    <telerik:RadRibbonButton x:Name="StopButton" Size="Large" Text="Stop" Width="80" Click="{to:XEvent Stop}">
                         <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xF04D;" />
                     </telerik:RadRibbonButton>
                 </telerik:RadRibbonGroup>
 
                 <telerik:RadRibbonGroup DefaultVariant="Large" Header="Monitoring">
-                    <telerik:RadRibbonButton x:Name="StartMonitoringButton" Size="Large" Text="Start" Width="80">
+                    <telerik:RadRibbonButton Size="Large" Text="GetData" Width="80" Click="{to:XEvent GetDatas}">
                         <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xf06e;" />
                     </telerik:RadRibbonButton>
-                    <telerik:RadRibbonButton x:Name="StopMonitoringButton" Size="Large" Text="Stop" Width="80">
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <TextBox Width="40" Height="20" Margin="3" Text="{Binding ContinuousMonitorInterval}" HorizontalContentAlignment="Center"/>
+                        <TextBlock Text="(s)" HorizontalAlignment="Center" Margin="3"/>
+                    </StackPanel>
+                    <telerik:RadRibbonToggleButton Size="Large" Text="GetDataTimer" Width="80" Click="{to:XEvent StartContinuousMonitor}">
+                        <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xf017;" />
+                    </telerik:RadRibbonToggleButton>
+                    <telerik:RadRibbonButton Size="Large" Text="StopMonitoring" Width="90" Click="{to:XEvent ClearMonitor}">
                         <TextBlock Margin="0,5,0,15" Style="{StaticResource LargeIconTextBlockStyle}" Text="&#xf070;" />
                     </telerik:RadRibbonButton>
                 </telerik:RadRibbonGroup>

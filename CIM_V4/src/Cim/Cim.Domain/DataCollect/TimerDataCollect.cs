@@ -1,5 +1,5 @@
-﻿using Cim.Driver;
-using Cim.Model;
+﻿using Cim.Domain.Driver;
+using Cim.Domain.Model;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using Tectone.Common.Utils;
 
-namespace Cim.DataCollect
+namespace Cim.Domain.DataCollect
 {
     /// <summary>
     /// Timer의 Interval 간격으로 주기적으로 데이터수집

@@ -5,7 +5,7 @@ using System.ServiceModel.PeerResolvers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.Model
+namespace Cim.Domain.Model
 {
     public class AddressData : AddressMap
     {

@@ -7,7 +7,7 @@
     <ProjectGuid>{8028222F-B7A1-4B0B-B711-63B109862E76}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Cim</RootNamespace>
+    <RootNamespace>Cim.Domain</RootNamespace>
     <AssemblyName>Cim.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

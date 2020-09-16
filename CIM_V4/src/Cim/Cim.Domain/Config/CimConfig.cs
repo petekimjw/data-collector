@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.Config
+namespace Cim.Domain.Config
 {
     public class CimConfig : ConfigurationSection
     {

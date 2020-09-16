@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tectone.Common.Mvvm;
 
-namespace Cim.Model
+namespace Cim.Domain.Model
 {
     public enum ControllerProtocol { None, Modbus, Melsec };
 

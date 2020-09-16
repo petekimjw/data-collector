@@ -1,4 +1,4 @@
-﻿using Cim.Model;
+﻿using Cim.Domain.Model;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Tectone.Common.Extensions;
 
-namespace Cim.Service
+namespace Cim.Domain.Service
 {
     public interface IAddressMapService
     {
@@ -51,7 +51,7 @@ namespace Cim.Service
                 }
                 catch (Exception ex)
                 {
-                    logger.Error($"ex={ex}"); //파일이 잠긴 경우
+                    logger.Error($"{fileName} 파일 열기 실패!!! ex={ex}"); //파일이 잠긴 경우
                     return controllers;
                 }
             }
@@ -103,25 +103,26 @@ namespace Cim.Service
                         }
                         else
                         {
-                            ExcelAddressMapParser parser = null;
                             var input = new AddressMap();
-                            switch (controller.Protocol)
-                            {
-                                case ControllerProtocol.Modbus:
-                                    input = new ModbusAddressMap();
-                                    parser = new ModbusExcelAddressMapParser();
-                                    break;
-                                case ControllerProtocol.Melsec:
-                                    parser = new MelsecExcelAddressMapParser();
-                                    break;
-                                case ControllerProtocol.None:
-                                default:
-                                    input = new AddressMap();
-                                    break;
-                            }
+                            ExcelAddressMapParser parser = null;
 
                             foreach (var row in rows)
                             {
+                                switch (controller.Protocol)
+                                {
+                                    case ControllerProtocol.Modbus:
+                                        input = new ModbusAddressMap();
+                                        parser = new ModbusExcelAddressMapParser();
+                                        break;
+                                    case ControllerProtocol.Melsec:
+                                        parser = new MelsecExcelAddressMapParser();
+                                        break;
+                                    case ControllerProtocol.None:
+                                    default:
+                                        input = new AddressMap();
+                                        break;
+                                }
+
                                 var addressMap = parser.ParseAddressMap(input, columns, row);//기본정보 파싱
                                 addressMap = parser.ParseCustomAddressMap(addressMap, columns, row);//사용자정의 추가파싱
 
@@ -317,6 +318,11 @@ namespace Cim.Service
     {
         protected Logger logger = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// todo: VariableId 에서 제거할 특수문자 목록
+        /// </summary>
+        public List<string> EscapeCharacters { get; set; } = new List<string> { "'", "\"", "<", ">", "%", "#", "$", "&", "-"};
+
         #region Util
 
         public List<IXLWorksheet> GetWorkSheets(string fileName, string sheetName = null)
@@ -461,12 +467,12 @@ namespace Cim.Service
         {
             try
             {
-                if (!cell.Value.ToString().StartsWith($"{error}-"))
+                if (!cell.Value.ToString().StartsWith($"{error}"))
                 {
                     cell.SetValue($"{error}-{cell.Value}");
                     cell.Style.Fill.BackgroundColor = XLColor.Red;
 
-                    AddressMapParseErrors.Add(($"{cell.Address}", $"{error}-{cell.Value}"));
+                    AddressMapParseErrors.Add(($"{cell.Address}", $"{error}{cell.Value}"));
                 }
                 else
                     AddressMapParseErrors.Add(($"{cell.Address}", $"{cell.Value}"));
@@ -481,9 +487,12 @@ namespace Cim.Service
         {
             try
             {
-                if (!cell.Value.ToString().StartsWith($"{warning}-"))
+                if(string.IsNullOrEmpty(warning))
+                    cell.Style.Font.FontColor = XLColor.Red;
+
+                else if (!cell.Value.ToString().StartsWith($"{warning}"))
                 {
-                    cell.SetValue($"{warning}-{cell.Value}");
+                    cell.SetValue($"{warning}{cell.Value}");
                     cell.Style.Font.FontColor = XLColor.Red;
                 }
                 //AddressMapParseErrors.Add(($"{cell.Address}", $"{warning}-{cell.Value}"));

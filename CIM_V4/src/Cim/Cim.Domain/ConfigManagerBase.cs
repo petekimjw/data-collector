@@ -1,8 +1,8 @@
-﻿using Cim.Config;
-using Cim.Manager;
-using Cim.Model;
-using Cim.Service;
-using Cim.Transfer;
+﻿using Cim.Domain.Config;
+using Cim.Domain.Manager;
+using Cim.Domain.Model;
+using Cim.Domain.Service;
+using Cim.Domain.Transfer;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -142,9 +142,7 @@ namespace Cim
         /// <param name="transfers"></param>
         private bool LoadAddressMapAndCreateManager(string fileName, IEnumerable<ITransfer> transfers)
         {
-            //controllerManagers
-            ControllerManagers = new ObservableCollection<ControllerManagerBase>();
-
+            //ParseAndWrite
             controllers = AddressMapService.ParseAndWrite(fileName);
             if (AddressMapService.AddressMapParseErrors?.Count > 0)
             {
@@ -156,6 +154,8 @@ namespace Cim
                 return false;
             }
 
+            //controllerManagers
+            ControllerManagers = new ObservableCollection<ControllerManagerBase>();
             foreach (var item in controllers)
             {
                 ControllerManagers.Add(new DefaultControllerManager(item, Transfers));
@@ -166,18 +166,12 @@ namespace Cim
         /// <summary>
         /// 어드레스맵 파싱 후 재시작(ControllerManager.InitDataCollects)
         /// </summary>
-        public void ReloadAddressMapAndCreateManager(string fileName)
+        public async Task ReloadAddressMapAndCreateManager()
         {
             Stop();
+            await Task.Delay(1000);
 
-            controllers = AddressMapService.ParseAndWrite(fileName);
-
-            //controllerManagers
-
-            foreach (var item in ControllerManagers)
-            {
-                item.InitDataCollects(item.Controller.AddressMaps);
-            }
+            LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers);
 
             Start();
         }

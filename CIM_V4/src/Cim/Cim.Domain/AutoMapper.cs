@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using Cim.Model;
+using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim
+namespace Cim.Domain
 {
     public static class AutoMapper
     {

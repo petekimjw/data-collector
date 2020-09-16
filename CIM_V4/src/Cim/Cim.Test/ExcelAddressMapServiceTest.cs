@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Cim.Service;
+using Cim.Domain.Service;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cim.Test

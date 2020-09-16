@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Cim.Transfer
+namespace Cim.Domain.Transfer
 {
     public interface ITransfer
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.Service
+namespace Cim.Domain.Service
 {
     public interface IDbSyncService
     {

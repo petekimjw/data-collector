@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using Cim.Model;
+using Cim.Domain;
+using Cim.Domain.Manager;
+using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,16 +28,21 @@ namespace Cim.Manager.Views
         public virtual ObservableCollection<AddressDataWrapper> SelectedAddressDatas { get; set; }
 
         private ConfigManagerBase configManager = null;
+
         #endregion
 
-        public ControllerViewModel()
+        public ControllerViewModel() : base()
         {
             configManager = new DefaultConfigManager();
             configManager.Init();
+            LoadControllerManagers();
+        }
 
+        public void LoadControllerManagers()
+        {
             ControllerManagers = configManager.ControllerManagers;
 
-            AutoMapper.Config = new MapperConfiguration(cfg =>
+            Cim.Domain.AutoMapper.Config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AddressMap, AddressMap>();
                 cfg.CreateMap<AddressMap, ModbusAddressMap>();
@@ -44,11 +51,11 @@ namespace Cim.Manager.Views
                 cfg.CreateMap<AddressMap, AddressDataWrapper>();
                 cfg.CreateMap<AddressData, AddressDataWrapper>();
             });
-            AutoMapper.Mapper = new Mapper(AutoMapper.Config);
+            Cim.Domain.AutoMapper.Mapper = new Mapper(Cim.Domain.AutoMapper.Config);
 
             var addressMaps = ControllerManagers?.FirstOrDefault()?.Controller.AddressMaps;
-            if(addressMaps?.Count > 0)
-                AddressDatas = AutoMapper.Mapper.Map<ObservableCollection<AddressDataWrapper>>(addressMaps);
+            if (addressMaps?.Count > 0)
+                AddressDatas = Cim.Domain.AutoMapper.Mapper.Map<ObservableCollection<AddressDataWrapper>>(addressMaps);
 
             //데이터 수신
             foreach (var item in ControllerManagers)
@@ -72,9 +79,53 @@ namespace Cim.Manager.Views
                 if (addressData != null)
                     addressData.Value = item.Value;
             }
-        } 
+        }
 
         #endregion
+
+        #region 명령
+
+        public async Task ReloadAddressMapAndCreateManager()
+        {
+            await configManager.ReloadAddressMapAndCreateManager();
+
+            LoadControllerManagers();
+        }
+
+        public void Start()
+        {
+            configManager.Start();
+        }
+
+        public void Stop()
+        {
+            configManager.Stop();
+        }
+
+        private int _ContinuousMonitorInterval = 5;
+        public int ContinuousMonitorInterval
+        {
+            get { return _ContinuousMonitorInterval; }
+            set { Set(ref _ContinuousMonitorInterval, value); }
+        }
+
+        public void GetDatas()
+        {
+
+        }
+
+        public void StartContinuousMonitor()
+        {
+
+        }
+
+        public void ClearMonitor()
+        {
+
+        }
+
+        #endregion
+
     }
 
     public class AddressDataWrapper : AddressData

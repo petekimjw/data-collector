@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cim.DataCollect;
-using Cim.Driver;
-using Cim.Manager;
-using Cim.Model;
+using Cim.Domain.DataCollect;
+using Cim.Domain.Driver;
+using Cim.Domain.Model;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cim.Test

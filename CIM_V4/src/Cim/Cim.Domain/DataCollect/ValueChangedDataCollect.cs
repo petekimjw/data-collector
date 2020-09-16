@@ -1,12 +1,12 @@
-﻿using Cim.Driver;
-using Cim.Model;
+﻿using Cim.Domain.Driver;
+using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.DataCollect
+namespace Cim.Domain.DataCollect
 {
     public class ValueChangedDataCollect : TimerDataCollect
     {

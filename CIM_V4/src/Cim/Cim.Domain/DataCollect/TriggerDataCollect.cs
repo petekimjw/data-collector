@@ -1,12 +1,12 @@
-﻿using Cim.Driver;
-using Cim.Model;
+﻿using Cim.Domain.Driver;
+using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.DataCollect
+namespace Cim.Domain.DataCollect
 {
     /// <summary>
     /// 트리거의 모든 값이 1인 경우 다른 주소의 값을 수집하여 전송한다

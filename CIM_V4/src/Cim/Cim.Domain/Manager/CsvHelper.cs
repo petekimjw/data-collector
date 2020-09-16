@@ -1,5 +1,5 @@
-﻿using Cim.Config;
-using Cim.Model;
+﻿using Cim.Domain.Config;
+using Cim.Domain.Model;
 using NLog;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.Manager
+namespace Cim.Domain.Manager
 {
     public class CsvHelper
     {
@@ -247,13 +247,13 @@ namespace Cim.Manager
                     //파일이 이미 있으면 fileName-{count}.csv 로 변경
                     int count = 0;
                     var fileName = fileFullName.Substring(fileFullName.LastIndexOf("\\") + 1);
-                    int index = fileName.LastIndexOf('-');
+                    int index = fileFullName.LastIndexOf('-');
                     if (index == -1)
                         fileFullName = $"{fileFullName.Replace(".csv", "-1.csv")}";
                     else
                     {
-                        int.TryParse(fileFullName.Substring(index).Replace(".csv", ""), out count);
-                        fileFullName = $"{fileFullName.Substring(0, index)}-{count}.csv";
+                        int.TryParse(fileFullName.Substring(index+1).Replace(".csv", ""), out count);
+                        fileFullName = $"{fileFullName.Substring(0, index)}-{count+1}.csv";
                     }
 
                     return MatchCsvHeaderAndFileName(fileFullName, columns, encoding);

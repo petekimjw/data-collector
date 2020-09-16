@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cim.Model
+namespace Cim.Domain.Model
 {
     /// <summary>
     /// 설비 상태(Idle, Run, Down)

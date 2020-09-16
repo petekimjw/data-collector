@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using Cim.DataCollect;
-using Cim.Driver;
-using Cim.Model;
-using Cim.Service;
-using Cim.Transfer;
+using Cim.Domain.DataCollect;
+using Cim.Domain.Driver;
+using Cim.Domain.Model;
+using Cim.Domain.Service;
+using Cim.Domain.Transfer;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Tectone.Common.Extensions;
 using Tectone.Common.Mvvm;
 
-namespace Cim.Manager
+namespace Cim.Domain.Manager
 {
     public class DefaultControllerManager : ControllerManagerBase
     {
@@ -259,6 +259,8 @@ namespace Cim.Manager
 
         private void DataCollect_DataReceived(object sender, AddressDataReceivedEventArgs e)
         {
+            if (!(e?.AddressDatas?.Count > 0))
+                return;
             try
             {
                 //Transfer
