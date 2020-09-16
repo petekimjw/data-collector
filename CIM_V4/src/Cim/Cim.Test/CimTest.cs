@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Cim.DataCollect;
 using Cim.Driver;
 using Cim.Manager;
 using Cim.Model;
@@ -24,18 +26,20 @@ namespace Cim.Test
             var controller = new Controller { Name = deviceName };
             var addressMaps = new List<AddressMap>
             {
-                new ModbusAddressMap("Device", "1", "1", 1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "2", "2",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "3", "3",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "4", "4",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "5", "5",  1, 1, null, 1, dataType:DataType.Word, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "6", "7.1",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "7", "7.2",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
-                new ModbusAddressMap("Device", "8", "7.3",  1, 1, null, 1, dataType:DataType.Bit, registerType:ModbusRegisterType.Holding),
+                new ModbusAddressMap("Lami", "1", "1", 1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new ModbusAddressMap("Lami", "2", "2",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new ModbusAddressMap("Lami", "3", "3",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new ModbusAddressMap("Lami", "4", "4",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new ModbusAddressMap("Lami", "5", "5",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new ModbusAddressMap("Lami", "6", "7.1",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
+                new ModbusAddressMap("Lami", "7", "7.2",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
+                new ModbusAddressMap("Lami", "8", "7.3",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
             };
             //var client = new ControllerManager(controller, addressMaps);
 
             //await client.ReadAddressMap(addressMaps, true);
+            var timer = new TimerDataCollect(new FakeDriver(), addressMaps, 1000, null);
+            var a = timer.GroupingAddressMapsByFunctionCode(addressMaps.Cast<ModbusAddressMap>().ToList());
         }
 
         [TestMethod]

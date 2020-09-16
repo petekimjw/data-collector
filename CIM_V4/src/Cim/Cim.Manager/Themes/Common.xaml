@@ -3,11 +3,11 @@
                     mc:Ignorable="d">
     <!--  LG스마트체2.0 Regular  -->
     <!--<Style TargetType="TextBlock" >
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
     </Style>-->
 
     <Style TargetType="TextBox" >
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
     </Style>
 
     <!--Blue #FF5B9BD5-->
@@ -43,7 +43,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Margin" Value="20 0 0 0" />
         <Setter Property="Width" Value="25" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
     </Style>
     <Style
         x:Key="SmallIconTextBlockStyle" BasedOn="{StaticResource IconTextBlockStyle}"
@@ -70,7 +70,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Margin" Value="20 0 0 0" />
         <Setter Property="Width" Value="25" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-regular-400.ttf#Font Awesome 5 Free Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/fa-regular-400.ttf#Font Awesome 5 Free Regular" />
     </Style>
     <Style x:Key="BrandIconTextBlockStyle" TargetType="TextBlock">
         <Setter Property="Background" Value="{x:Null}" />
@@ -80,7 +80,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="Margin" Value="20 0 0 0" />
         <Setter Property="Width" Value="25" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-brands-400.ttf#Font Awesome 5 Brands Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/fa-brands-400.ttf#Font Awesome 5 Brands Regular" />
     </Style>
 
     <Style x:Key="IconButtonStyle" BasedOn="{StaticResource ButtonStyle}" TargetType="Button">
@@ -89,7 +89,7 @@
         <Setter Property="Foreground" Value="{telerik:GreenResource ResourceKey=MarkerBrush}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Center" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/fa-solid-900.ttf#Font Awesome 5 Free Solid" />
     </Style>
     <Style x:Key="SmallIconButtonStyle" BasedOn="{StaticResource IconButtonStyle}" TargetType="Button">
         <Setter Property="FontSize" Value="14" />
@@ -111,7 +111,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="ExtraBold" />
         <Setter Property="Width" Value="150" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Bold" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Bold" />
         <Setter Property="Margin" Value="20 0 20 0" />
     </Style>
     <Style x:Key="TitleTextBlockStyle2" BasedOn="{StaticResource TitleTextBlockStyle}" TargetType="TextBlock">
@@ -128,7 +128,7 @@
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Width" Value="150" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
         <Setter Property="Margin" Value="20 0 20 0" />
     </Style>
 
@@ -145,7 +145,7 @@
 
     <Style x:Key="FormTextBoxStyle" BasedOn="{StaticResource TextBoxStyle}" TargetType="TextBox">
         <Setter Property="Margin" Value="3 2 2 2" />
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
         <Setter Property="FontSize" Value="18" />
         <Style.Triggers>
             <Trigger Property="IsReadOnly" Value="True">
@@ -171,7 +171,7 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="4" />
 
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTR.ttf#LG스마트체2.0 Regular" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="CaretBrush" Value="{telerik1:GreenResource ResourceKey=MainBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -202,7 +202,7 @@
     </Style>
 
     <Style x:Key="FormLabelTextBoxStyle2" TargetType="{x:Type TextBox}" BasedOn="{StaticResource FormLabelTextBoxStyle}">
-        <Setter Property="FontFamily" Value="/Cim;component/Resources/LGSmHaTB.ttf#LG스마트체2.0 Bold" />
+        <Setter Property="FontFamily" Value="/Cim.Manager;component/Resources/LGSmHaTB.ttf#LG스마트체2.0 Bold" />
     </Style>
 
     <Style x:Key="FormNumericUpDownStyle" BasedOn="{StaticResource RadNumericUpDownStyle}" TargetType="telerik:RadNumericUpDown">

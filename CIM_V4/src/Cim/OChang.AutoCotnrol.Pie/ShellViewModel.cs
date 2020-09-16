@@ -9,7 +9,7 @@ using System.Windows.Input;
 using Tectone.Common.Mvvm;
 using Tectone.Wpf.Controls;
 
-namespace Cim.Manager
+namespace OChang.AutoCotnrol.Pie
 {
     public class ShellViewModel: ViewModelBase
     {

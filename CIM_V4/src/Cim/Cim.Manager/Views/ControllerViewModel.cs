@@ -21,9 +21,9 @@ namespace Cim.Manager.Views
 
         public virtual ControllerManagerBase SelectedControllerManager { get; set; }
 
-        public virtual ObservableCollection<AddressData> AddressDatas { get; set; }
+        public virtual ObservableCollection<AddressDataWrapper> AddressDatas { get; set; }
 
-        public virtual ObservableCollection<AddressData> SelectedAddressDatas { get; set; }
+        public virtual ObservableCollection<AddressDataWrapper> SelectedAddressDatas { get; set; }
 
         private ConfigManagerBase configManager = null;
         #endregion
@@ -35,8 +35,20 @@ namespace Cim.Manager.Views
 
             ControllerManagers = configManager.ControllerManagers;
 
-            var addressMaps = ControllerManagers?.FirstOrDefault().AddressMaps;
-            AddressDatas = AutoMapper.Mapper.Map<ObservableCollection<AddressData>>(addressMaps);
+            AutoMapper.Config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<AddressMap, AddressMap>();
+                cfg.CreateMap<AddressMap, ModbusAddressMap>();
+                cfg.CreateMap<AddressMap, AddressData>();
+                cfg.CreateMap<ModbusAddressMap, AddressData>();
+                cfg.CreateMap<AddressMap, AddressDataWrapper>();
+                cfg.CreateMap<AddressData, AddressDataWrapper>();
+            });
+            AutoMapper.Mapper = new Mapper(AutoMapper.Config);
+
+            var addressMaps = ControllerManagers?.FirstOrDefault()?.Controller.AddressMaps;
+            if(addressMaps?.Count > 0)
+                AddressDatas = AutoMapper.Mapper.Map<ObservableCollection<AddressDataWrapper>>(addressMaps);
 
             //데이터 수신
             foreach (var item in ControllerManagers)
@@ -64,4 +76,10 @@ namespace Cim.Manager.Views
 
         #endregion
     }
+
+    public class AddressDataWrapper : AddressData
+    {
+
+    }
+
 }

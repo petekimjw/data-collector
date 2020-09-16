@@ -12,20 +12,21 @@ namespace Cim
     {
         public static Mapper Mapper = null;
 
+        public static MapperConfiguration Config = null;
+
         static AutoMapper()
         {
-            var config = new MapperConfiguration(cfg =>
+            Config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<AddressMap, AddressMap>();
                 cfg.CreateMap<AddressMap, ModbusAddressMap>();
                 cfg.CreateMap<AddressMap, AddressData>();
-
-
+                cfg.CreateMap<ModbusAddressMap, AddressData>();
+                //cfg.CreateMap<AddressMap, AddressDataWrapper>();
             });
-
-            Mapper = new Mapper(config);
+            
+            Mapper = new Mapper(Config);
         }
         
-
     }
 }

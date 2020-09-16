@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tectone.Common.Mvvm;
 
 namespace Cim.Model
 {
     public enum ControllerProtocol { None, Modbus, Melsec };
 
-    public class Controller
+    public class Controller : BindableBase
     {
         public string Name { get; set; } = "Controller";
         public string Ip { get; set; } = "127.0.0.1";
@@ -27,6 +29,12 @@ namespace Cim.Model
         
         public int Id { get; set; }
 
-        public List<AddressMap> AddressMaps { get; set; }
+        private ObservableCollection<AddressMap> _AddressMaps;
+        public ObservableCollection<AddressMap> AddressMaps
+        {
+            get { return _AddressMaps; }
+            set { Set(ref _AddressMaps, value); }
+        }
+
     }
 }

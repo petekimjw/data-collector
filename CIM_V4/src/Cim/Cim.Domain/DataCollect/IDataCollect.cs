@@ -9,6 +9,7 @@ namespace Cim.DataCollect
 {
     public interface IDataCollect
     {
+        string Name { get; set; }
         void Start();
         void Stop();
         event EventHandler<AddressDataReceivedEventArgs> DataReceived;

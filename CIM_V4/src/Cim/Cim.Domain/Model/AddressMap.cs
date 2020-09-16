@@ -16,20 +16,20 @@ namespace Cim.Model
     /// </summary>
     public enum ByteOrder { ABCD, CDAB, BADC, DCBA }
     /// <summary>
-    /// 자료형. int, short, float 가 아닌, PLC 입장에서 자료형
+    /// 자료형. int, short, float 가 아닌, PLC 입장에서 자료형(Bit, Word16, Word32, String)
     /// </summary>
-    public enum DataType { Word, DoubleWord, String, Bit }
+    public enum DataType { None, Bit, Word16, Word32, String, Real32, Real64, WordU16, WordU32 }
     /// <summary>
-    /// 데이터 성격별 분류 (Status, Alarm, Data)
+    /// 데이터 성격별 분류 (Status, Alarm, Data, Trigger)
     /// </summary>
-    public enum DataCategory { Status, Alarm, Data }
+    public enum DataCategory { Data, Status, Alarm }
 
     public class AddressMap : BindableBase
     {
         #region 초기화
         public override string ToString()
         {
-            return $"Id={Id}, VariableId={VariableId}, Address={Address}, VariableName={VariableName}, Size={Size}, Scale={DeciamlPoint}, " +
+            return $"DeviceId={DeviceId}, Id={Id}, VariableId={VariableId}, VariableName={VariableName}, Address={Address}, Size={Size}, Scale={DeciamlPoint}, " +
                 $"UseYN={IsUsed}, DataType={DataType}, DataCategory={DataCategory}," +
                 $"Description={Description}, Group={Group}";
         }
@@ -42,7 +42,7 @@ namespace Cim.Model
         }
 
         public AddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint=0, string variableName = null,
-            int id=0, bool useYN=true, DataType dataType=DataType.Word, DataCategory dataCategory=DataCategory.Data, 
+            int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
             string description=null, string group=null)
         {
             DeviceId = deviceId;
@@ -140,11 +140,11 @@ namespace Cim.Model
 
         public int Id { get; set; } = 0;
         /// <summary>
-        /// Address주소에서 숫자
+        /// Address주소에서 숫자. 예) D100 에서 100
         /// </summary>
         public int AddressNumber { get; set; }
         /// <summary>
-        /// Address주소에서 문자
+        /// Address주소에서 문자. 예) D100 에서 D
         /// </summary>
         public string AddressSymbol { get; set; }
 
@@ -155,7 +155,7 @@ namespace Cim.Model
             set { Set(ref _IsUsed, value); }
         }
 
-        private DataType _DataType = DataType.Word;
+        private DataType _DataType = DataType.Word16;
         public DataType DataType
         {
             get { return _DataType; }
@@ -206,7 +206,7 @@ namespace Cim.Model
         #region 초기화
         public override string ToString()
         {
-            return $"{base.ToString()}, SlaveId={SlaveId}, RegesterType={RegesterType}";
+            return $"{base.ToString()}, SlaveId={SlaveId}, RegesterType={FunctionCode}";
         }
 
         public ModbusAddressMap() : base()
@@ -214,10 +214,10 @@ namespace Cim.Model
 
         }
 
-        public ModbusAddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint = 1, string variableName=null,
-            int id=0, bool useYN=true, DataType dataType=DataType.Word, DataCategory dataCategory=DataCategory.Data, 
+        public ModbusAddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint = 0, string variableName=null,
+            int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
             string description=null, string group=null,
-            int slaveId = 1, ModbusRegisterType registerType = ModbusRegisterType.Holding)
+            int slaveId = 1, FunctionCode functionCode = FunctionCode.HoldingRegister)
              : base(deviceId, variableId, address, size , decimalPoint, variableName, id, useYN, dataType, dataCategory, description, group)
         {
             Id = id;
@@ -228,15 +228,15 @@ namespace Cim.Model
             Group = group;
 
             SlaveId = slaveId;
-            RegesterType = registerType;
+            FunctionCode = functionCode;
         }
 
         #endregion
 
         public int SlaveId { get; set; } = 1;
-        public ModbusRegisterType RegesterType { get; set; } = ModbusRegisterType.Holding;
+        public FunctionCode FunctionCode { get; set; } = FunctionCode.HoldingRegister;
 
     }
 
-
+    
 }

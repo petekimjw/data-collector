@@ -7,11 +7,15 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using Tectone.Common.Mvvm;
 
 namespace Cim.Driver
 {
-    public enum ModbusRegisterType { None=0, Holding=1, Input=2, Coil=3 }
+    /// <summary>
+    /// Modbus Function Code. Bit(CoilStatus = 0, InputStatus=1) Word(InputRegister = 2, HoldingRegister =3)
+    /// </summary>
+    public enum FunctionCode { Coil = 0, Input=1, InputRegister = 2, HoldingRegister =3}
 
     public class ModbusDriver : BindableBase, IDriver
     {
@@ -19,13 +23,6 @@ namespace Cim.Driver
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
 
         protected IModbusMaster Plc { get; set; }
-
-        private DriverStatus _Status;
-        public DriverStatus Status
-        {
-            get { return _Status; }
-            set { Set(ref _Status, value); }
-        }
 
         public string Ip { get; set; }
         public int Port { get; set; }
@@ -58,6 +55,17 @@ namespace Cim.Driver
             return null;
         }
 
+        #endregion
+
+        #region IDriver
+
+        private DriverStatus _Status;
+        public DriverStatus Status
+        {
+            get { return _Status; }
+            set { Set(ref _Status, value); }
+        }
+
         public bool Open()
         {
             bool result = false;
@@ -88,7 +96,28 @@ namespace Cim.Driver
                 logger.Error($"ex={ex}");
             }
             return result;
-        } 
+        }
+
+        private Timer retryTimer = new Timer(3000);
+
+        public bool RetryOpen()
+        {
+            bool result = false;
+            try
+            {
+                if (Status != DriverStatus.Connected)
+                {
+                    result = Close();
+                    result = Open();
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.Error($"ex={ex}");
+            }
+            return result;
+        }
+
         #endregion
 
         /// <summary>
@@ -100,32 +129,36 @@ namespace Cim.Driver
         /// <param name="startAddress"></param>
         /// <param name="count"></param>
         /// <returns></returns>
-        public async Task<(int error, ushort[] results)> ReadRegister(
+        public async Task<(int error, ushort[] results)> Read(
             string stringAddress, ushort startAddress= 1, int count = 1, bool isBit = false, 
             ushort slaveId = 1, int registerType = 1)
         {
             int error = 0;
             ushort[] results = null;
-            var type = (ModbusRegisterType)Enum.Parse(typeof(ModbusRegisterType), $"{registerType}");
+            //Modbus Function Code. Bit(CoilStatus = 0, InputStatus=1) Word(InputRegister = 2, HoldingRegister =3)
+            var type = (FunctionCode)Enum.Parse(typeof(FunctionCode), $"{registerType}");
             try
             {
-                if (isBit)
+                switch (type)
                 {
-                    var boolResults = await Plc.ReadCoilsAsync((byte)slaveId, startAddress, (ushort)count);
-                    results = boolResults.Select(m => Convert.ToUInt16(m)).ToArray();
-                }
-                else if(type == ModbusRegisterType.Holding)
-                {
-                    results = await Plc.ReadHoldingRegistersAsync((byte)slaveId, startAddress, (ushort)count);
-                }
-                else if (type == ModbusRegisterType.Input)
-                {
-                    results = await Plc.ReadInputRegistersAsync((byte)slaveId, startAddress, (ushort)count);
-                    //var results2 = ModbusMaster.ReadHoldingRegisters32((byte)slaveAddress, startAddress, count);
-                }
-                else
-                {
-                    logger.Error($"Invalid registerType={registerType}");
+                    case FunctionCode.Coil:
+                        var boolResults = await Plc.ReadCoilsAsync((byte)slaveId, startAddress, (ushort)count);
+                        results = boolResults.Select(m => Convert.ToUInt16(m)).ToArray();
+                        break;
+                    case FunctionCode.Input:
+                        var boolResults2 = await Plc.ReadInputsAsync((byte)slaveId, startAddress, (ushort)count);
+                        results = boolResults2.Select(m => Convert.ToUInt16(m)).ToArray();
+                        break;
+                    case FunctionCode.InputRegister:
+                        results = await Plc.ReadInputRegistersAsync((byte)slaveId, startAddress, (ushort)count);
+                        //var results2 = ModbusMaster.ReadHoldingRegisters32((byte)slaveAddress, startAddress, count);
+                        break;
+                    case FunctionCode.HoldingRegister:
+                        results = await Plc.ReadHoldingRegistersAsync((byte)slaveId, startAddress, (ushort)count);
+                        break;
+                    default:
+                        logger.Error($"Invalid registerType={registerType}");
+                        break;
                 }
             }
             catch (Exception ex)

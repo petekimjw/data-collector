@@ -38,11 +38,11 @@ namespace Cim.Manager
             set { Set(ref _Controller, value); }
         }
 
-        private ObservableCollection<AddressMap> _AddressMaps;
-        public ObservableCollection<AddressMap> AddressMaps
+        private ObservableCollection<string> _DeviceIds = new ObservableCollection<string>();
+        public ObservableCollection<string> DeviceIds
         {
-            get { return _AddressMaps; }
-            set { Set(ref _AddressMaps, value); }
+            get { return _DeviceIds; }
+            set { Set(ref _DeviceIds, value); }
         }
 
         private IDriver _Driver;
@@ -130,44 +130,89 @@ namespace Cim.Manager
         {
             Stop();
 
-            AddressMaps = addressMaps;
-
-            //todo: DeviceId 별로 그룹핑
-            var dataAddressMaps = addressMaps.Where(m => m.DataCategory == DataCategory.Data).ToList();
-            var statusAddressMaps = addressMaps.Where(m => m.DataCategory == DataCategory.Status).ToList();
-            var alarmAddressMaps = addressMaps.Where(m => m.DataCategory == DataCategory.Alarm).ToList();
-
             DataCollects?.Clear();
+
+            #region DeviceIds
+
+            var groups = addressMaps.GroupBy(m => m.DeviceId).ToDictionary(m => m.Key, m => m.ToList());
+            DeviceIds = groups.Keys.ToObservableCollection();
+
+            #endregion
+
+            //DeviceIds 별 그룹핑 => Data, Status, Alarm 별 그룹핑 DataCollects 생성
+            foreach (var group in groups)
+            {
+                var groupName = group.Key;
+                var maps = group.Value;
+
+                // Data 는 5초에 1번 폴링
+                var dataCollect = CreateDataTypeDataCollect(groupName, maps);
+                if(dataCollect != null)
+                    DataCollects.Add(dataCollect);
+
+                // Status 는 1초에 1번 폴링
+                dataCollect = CreateStatusDataCollect(groupName, maps);
+                if (dataCollect != null)
+                    DataCollects.Add(dataCollect);
+
+                // Alarm 는 1초에 1번 폴링. 값이 변경시 전송
+                dataCollect = CreateAlarmDataCollect(groupName, maps);
+                if (dataCollect != null)
+                    DataCollects.Add(dataCollect);
+
+            }
+
+            Start();
+        }
+
+        public virtual IDataCollect CreateDataTypeDataCollect(string groupName, List<AddressMap> maps)
+        {
+            var dataAddressMaps = maps.Where(m => m.DataCategory == DataCategory.Data).ToList();
             if (dataAddressMaps?.Count > 0)
             {
                 int dataInterval = 5000;
                 if (Controller?.MetaDatas?.ContainsKey("DataInterval") == true)
                     int.TryParse(Controller.MetaDatas["DataInterval"], out dataInterval);
-                var dataTimerDataCollect = new TimerDataCollect(Driver, dataAddressMaps, dataInterval);
+                var dataTimerDataCollect = new TimerDataCollect(Driver, dataAddressMaps, dataInterval, $"Data-{groupName}");
 
-                DataCollects.Add(dataTimerDataCollect);
+                return dataTimerDataCollect;
             }
+
+            return null;
+        }
+
+        public virtual IDataCollect CreateStatusDataCollect(string groupName, List<AddressMap> maps)
+        {
+            var statusAddressMaps = maps.Where(m => m.DataCategory == DataCategory.Status).ToList();
             if (statusAddressMaps?.Count > 0)
             {
                 int statusInterval = 1000;
                 if (Controller?.MetaDatas?.ContainsKey("StatusInterval") == true)
                     int.TryParse(Controller.MetaDatas["StatusInterval"], out statusInterval);
-                var statusTimerDataCollect = new TimerDataCollect(Driver, statusAddressMaps, statusInterval);
+                var statusTimerDataCollect = new TimerDataCollect(Driver, statusAddressMaps, statusInterval, $"Status-{groupName}");
 
-                DataCollects.Add(statusTimerDataCollect);
+                return statusTimerDataCollect;
             }
+
+            return null;
+        }
+
+        public virtual IDataCollect CreateAlarmDataCollect(string groupName, List<AddressMap> maps)
+        {
+            var alarmAddressMaps = maps.Where(m => m.DataCategory == DataCategory.Alarm).ToList();
             if (alarmAddressMaps?.Count > 0)
             {
                 int alarmInterval = 10000;
                 if (Controller?.MetaDatas?.ContainsKey("AlarmInterval") == true)
                     int.TryParse(Controller.MetaDatas["AlarmInterval"], out alarmInterval);
-                var alarmTimerDataCollect = new TimerDataCollect(Driver, alarmAddressMaps, alarmInterval);
+                var alarmTimerDataCollect = new TimerDataCollect(Driver, alarmAddressMaps, alarmInterval, $"Alarm-{groupName}");
 
-                DataCollects.Add(alarmTimerDataCollect);
+                return alarmTimerDataCollect;
             }
 
-            Start();
+            return null;
         }
+
 
         #endregion
 

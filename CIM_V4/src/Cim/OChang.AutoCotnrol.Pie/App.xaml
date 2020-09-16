@@ -2,8 +2,34 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:OChang.AutoCotnrol.Pie"
-             StartupUri="MainWindow.xaml">
+             
+             StartupUri="ShellView.xaml">
+    
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/System.Windows.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Input.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Navigation.xaml" />
+
+                <!--<ResourceDictionary Source="Themes/Telerik.Windows.Controls.Docking.xaml" />-->
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.GridView.xaml" />
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.RibbonView.xaml" />
+                <!--<ResourceDictionary Source="Themes/Telerik.Windows.Controls.DataVisualization.xaml" />-->
+                <!--<ResourceDictionary Source="Themes/Telerik.Windows.Controls.ScheduleView.xaml" />-->
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Chart.xaml" />
+
+
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Common.xaml" />
+
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
+    
 </Application>

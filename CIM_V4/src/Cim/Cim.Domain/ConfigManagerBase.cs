@@ -58,33 +58,55 @@ namespace Cim
             get { return _Transfers; }
             set { Set(ref _Transfers, value); }
         }
+
+        private IDbSyncService _DbSyncService;
+        public IDbSyncService DbSyncService
+        {
+            get { return _DbSyncService; }
+            set { Set(ref _DbSyncService, value); }
+        }
+
         #endregion
 
-        #region Cim 파이프라인 구성 (CimConfig, DataInputService, Transfers, AddressMapService)
+        #region Cim 파이프라인 구성 (CimConfig, DataInputService, Transfers, AddressMapService, DbSyncService)
 
         private List<Controller> controllers = new List<Controller>();
 
-        public void Init()
+        public virtual void Init()
         {
             try
             {
-                //CimConfig
+                //CimConfig : app.config 설정
                 CimConfig = ConfigurationManager.GetSection("cim") as CimConfig;
 
-                //IDataInputService
-                DataInputService = new DataInputService();
-
-                //ITransfer
+                //ITransfer : Mq 전송등 상위전송
                 Transfers = new ObservableCollection<ITransfer> { new MqTransfer()};
 
-                // IAddressMapService
+                //Excel 어드레스맵 제공
                 AddressMapService = new ExcelAddressMapService();
 
-                // LoadAddressMaps, ControllerManagers
-                LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers);
+                //LoadAddressMaps, ControllerManagers
+                if (LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers) == false)
+                    return; //파싱 실패시 !!!
 
-                //Start
-                Start();
+                //t_dvc_info, t_var_info 동기화 서비스
+                var connectionString = ConfigurationManager.ConnectionStrings["pie"]?.ConnectionString;
+                if (string.IsNullOrEmpty(connectionString))
+                {
+                    logger.Error($"connectionString Fail!={connectionString}");
+                    return;
+                }
+                else
+                {
+                    DbSyncService = new DbSyncService();
+                    DbSyncService.Sync(connectionString);
+
+                    //IDataInputService : 데이터수집을 REST로 제공
+                    DataInputService = new DataInputService();
+
+                    //Start
+                    Start();
+                }
             }
             catch (Exception ex)
             {
@@ -118,16 +140,27 @@ namespace Cim
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="transfers"></param>
-        private void LoadAddressMapAndCreateManager(string fileName, IEnumerable<ITransfer> transfers)
+        private bool LoadAddressMapAndCreateManager(string fileName, IEnumerable<ITransfer> transfers)
         {
-            controllers = AddressMapService.ParseAndWrite(fileName);
-
             //controllerManagers
             ControllerManagers = new ObservableCollection<ControllerManagerBase>();
+
+            controllers = AddressMapService.ParseAndWrite(fileName);
+            if (AddressMapService.AddressMapParseErrors?.Count > 0)
+            {
+                foreach (var item in AddressMapService.AddressMapParseErrors)
+                {
+                    (var a, var b) = item;
+                    logger.Error($"AddressMapParseErrors={a}, {b}");
+                }
+                return false;
+            }
+
             foreach (var item in controllers)
             {
                 ControllerManagers.Add(new DefaultControllerManager(item, Transfers));
             }
+            return true;
         }
 
         /// <summary>
@@ -143,7 +176,7 @@ namespace Cim
 
             foreach (var item in ControllerManagers)
             {
-                item.InitDataCollects(item.AddressMaps);
+                item.InitDataCollects(item.Controller.AddressMaps);
             }
 
             Start();
