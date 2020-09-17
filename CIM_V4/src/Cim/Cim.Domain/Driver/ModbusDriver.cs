@@ -88,6 +88,7 @@ namespace Cim.Domain.Driver
                 logger.Error($"ex={ex}");
                 Status = DriverStatus.Disconnected;
             }
+            logger.Debug($"[{Status}] [{result}] Ip={Ip}, Port={Port}, ReceiveTimeout={ReceiveTimeout}");
             return result;
         }
 
@@ -103,6 +104,7 @@ namespace Cim.Domain.Driver
             {
                 logger.Error($"ex={ex}");
             }
+            logger.Debug($"[{Status}] [{result}] Ip={Ip}, Port={Port}, ReceiveTimeout={ReceiveTimeout}");
             return result;
         }
 

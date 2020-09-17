@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel.PeerResolvers;
 using System.Text;
 using System.Threading.Tasks;
+using Tectone.Common.Extensions;
 
 namespace Cim.Domain.Model
 {
@@ -18,12 +19,12 @@ namespace Cim.Domain.Model
 
         }
 
-        public AddressData(DateTime time, string deviceId, string variableId, string address, object value)
+        public AddressData(DateTime time, string deviceId, string variableId, string address, object value) : base(deviceId, variableId, address)
         {
             Time = time;
-            DeviceId = deviceId;
-            VariableId = variableId;
-            Address = address;
+            //DeviceId = deviceId;
+            //VariableId = variableId;
+            //Address = address;
             Value = value;
         }
         //public string DeviceName { get; set; }
@@ -42,11 +43,85 @@ namespace Cim.Domain.Model
         public object Value
         {
             get { return _Value; }
-            set { Set(ref _Value, value); }
+            set 
+            { 
+                (value, RawValues) = ConvertValue(value, DataType);  
+                Set(ref _Value, value); 
+            }
         }
 
         public byte[] RawValues { get; set; }
 
+        public static (object, byte[]) ConvertValue(object value, DataType dataType)
+        {
+            object result = null;
+            byte[] bytes = null;
+            try
+            {
+                //Melsec은 short[], Modbus는 ushort[] 으로 들어온다.
+                switch (dataType)
+                {
+                    case DataType.Word16:
+                        result = Convert.ToInt16(value);
+                        break;
+                    case DataType.Bit:
+                    case DataType.WordU16:
+                        result = Convert.ToUInt16(value);
+                        break;
+
+                    case DataType.Word32:
+                        
+                        result = Convert.ToInt32(value);
+                        break;
+                    case DataType.WordU32:
+                        result = Convert.ToUInt32(value);
+                        break;
+                    case DataType.Real32:
+                        result = Convert.ToSingle(value);
+                        break;
+
+                    case DataType.Real64:
+                        result = Convert.ToDouble(value);
+                        break;
+                    case DataType.String:
+                        break;
+
+                    case DataType.None:
+                    default:
+                        result = value;
+                        break;
+                }
+            }
+            catch { }
+            return (result, bytes);
+        }
+
+        /// <summary>
+        /// 1개 워드 이상(32bit, 64bit, 문자열)만 변환해야 한다
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="byteOrder"></param>
+        /// <returns></returns>
+        public static object ApplyByteOrder(object value, ByteOrder byteOrder)
+        {
+            object result = null;
+            switch (byteOrder)
+            {
+                case ByteOrder.ABCD:
+                    int a = 1;
+                    
+                    break;
+                case ByteOrder.CDAB:
+                    break;
+                case ByteOrder.BADC:
+                    break;
+                case ByteOrder.DCBA:
+                    break;
+                default:
+                    break;
+            }
+            return result;
+        }
 
         #region MQ
 

@@ -62,6 +62,7 @@ namespace Cim.Domain.Driver
                 logger.Error($"ex={ex}");
                 Status = DriverStatus.Disconnected;
             }
+            logger.Debug($"[{Status}] [{result}] LogicalStationNumber={LogicalStationNumber}");
             return result;
         }
 
@@ -78,6 +79,7 @@ namespace Cim.Domain.Driver
             {
                 logger.Error($"ex={ex}");
             }
+            logger.Debug($"[{Status}] [{result}] LogicalStationNumber={LogicalStationNumber}");
             return result;
         }
 
@@ -123,8 +125,9 @@ namespace Cim.Domain.Driver
             {
                 try
                 {
+                    //todo: Melsec bit 처리, 데이터변환?
                     error = Plc.ReadDeviceBlock2(stringAddress, count, out tempResults[0]);
-                    //var a = mPlc.ReadDeviceBlock(startAddress, length, out results[0]);
+                    //var a = Plc.Read(startAddress, length, out results[0]);
 
                     results = tempResults.Select(m => Convert.ToUInt16(m)).ToArray();
                 }
