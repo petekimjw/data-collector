@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.Configuration;
 using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
@@ -11,22 +12,29 @@ namespace Cim.Domain
     public static class AutoMapper
     {
         public static Mapper Mapper = null;
+        public static MapperConfigurationExpression BaseMapping = new MapperConfigurationExpression();
 
-        public static MapperConfiguration Config = null;
+        private static MapperConfiguration config = null;
+
 
         static AutoMapper()
         {
-            Config = new MapperConfiguration(cfg =>
-            {
-                cfg.CreateMap<AddressMap, AddressMap>();
-                cfg.CreateMap<AddressMap, ModbusAddressMap>();
-                cfg.CreateMap<AddressMap, AddressData>();
-                cfg.CreateMap<ModbusAddressMap, AddressData>();
-                //cfg.CreateMap<AddressMap, AddressDataWrapper>();
-            });
-            
-            Mapper = new Mapper(Config);
+            BaseMapping.CreateMap<AddressMap, AddressMap>();
+            BaseMapping.CreateMap<AddressMap, ModbusAddressMap>();
+            BaseMapping.CreateMap<AddressMap, AddressData>();
+            BaseMapping.CreateMap<ModbusAddressMap, AddressData>();
+
+            config = new MapperConfiguration(BaseMapping); 
+            Mapper = new Mapper(config);
         }
-        
+
+        public static void Init(MapperConfigurationExpression mapping)
+        {
+            config = new MapperConfiguration(mapping);
+            Mapper = new Mapper(config);
+
+            //Mapper.ConfigurationProvider.GetAllTypeMaps()
+        }
+
     }
 }

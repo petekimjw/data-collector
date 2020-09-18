@@ -12,7 +12,7 @@ using Tectone.Common.Mvvm;
 namespace Cim.Domain.Model
 {
     /// <summary>
-    /// 빅인디언, 리틀인디언등을 따지는 32bit 바이트오더. 8bit는 16진수로 표현된다.
+    /// 32bit 일때 바이트오더. A(8bit), B(8bit), C(8bit), D(8bit)=2Words
     /// </summary>
     public enum ByteOrder { ABCD, CDAB, BADC, DCBA }
     /// <summary>
@@ -31,7 +31,7 @@ namespace Cim.Domain.Model
         {
             return $"DeviceId={DeviceId}, Id={Id}, VariableId={VariableId}, VariableName={VariableName}, Address={Address}, Size={Size}, Scale={DeciamlPoint}, " +
                 $"UseYN={IsUsed}, DataType={DataType}, DataCategory={DataCategory}," +
-                $"Description={Description}, Group={Group}";
+                $"Description={Description}, Group={Group}, ByteOrder={ByteOrder}";
         }
 
         private static readonly Logger logger = LogManager.GetCurrentClassLogger();
@@ -43,7 +43,7 @@ namespace Cim.Domain.Model
 
         public AddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint=0, string variableName = null,
             int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
-            string description=null, string group=null)
+            string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB)
         {
             DeviceId = deviceId;
             VariableId = variableId;
@@ -82,6 +82,7 @@ namespace Cim.Domain.Model
             Id = id;
             IsUsed = useYN;
             DataType = dataType;
+            ByteOrder = byteOrder;
             DataCategory = dataCategory;
             Description = description;
             Group = group;
@@ -162,6 +163,12 @@ namespace Cim.Domain.Model
             set { Set(ref _DataType, value); }
         }
 
+        private ByteOrder _ByteOrder;
+        public ByteOrder ByteOrder
+        {
+            get { return _ByteOrder; }
+            set { Set(ref _ByteOrder, value); }
+        }
 
         private DataCategory _DataCategory;
         public DataCategory DataCategory
@@ -216,9 +223,9 @@ namespace Cim.Domain.Model
 
         public ModbusAddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint = 0, string variableName=null,
             int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
-            string description=null, string group=null,
+            string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB,
             int slaveId = 1, FunctionCode functionCode = FunctionCode.HoldingRegister)
-             : base(deviceId, variableId, address, size , decimalPoint, variableName, id, useYN, dataType, dataCategory, description, group)
+             : base(deviceId, variableId, address, size , decimalPoint, variableName, id, useYN, dataType, dataCategory, description, group, byteOrder)
         {
             Id = id;
             IsUsed = useYN;

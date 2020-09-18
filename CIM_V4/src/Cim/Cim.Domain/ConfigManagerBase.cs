@@ -1,4 +1,5 @@
-﻿using Cim.Domain.Config;
+﻿using AutoMapper;
+using Cim.Domain.Config;
 using Cim.Domain.Manager;
 using Cim.Domain.Model;
 using Cim.Domain.Service;
@@ -80,7 +81,7 @@ namespace Cim
                 CimConfig = ConfigurationManager.GetSection("cim") as CimConfig;
 
                 //ITransfer : Mq 전송등 상위전송
-                Transfers = new ObservableCollection<ITransfer> { new MqTransfer()};
+                Transfers = new ObservableCollection<ITransfer> { new MqTransfer() };
 
                 //Excel 어드레스맵 제공
                 AddressMapService = new ExcelAddressMapService();

@@ -81,8 +81,8 @@ namespace Cim.Domain.Manager
 
                 if (writeColumnCsvFile)
                 {
-                    var results = CsvHelper.ReshapeColumnDataTable(addressDatas as List<AddressData>);
-                    return CsvHelper.WriteColumnCsvFileInternal(results, fileFullName);
+                    var results = ReshapeColumnDataTable(addressDatas as List<AddressData>);
+                    return WriteColumnCsvFileInternal(results, fileFullName);
                 }
             }
             catch (Exception ex)

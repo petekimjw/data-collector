@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using AutoMapper.Configuration;
 using Cim.Domain.DataCollect;
 using Cim.Domain.Driver;
 using Cim.Domain.Model;
+using Cim.Manager.Views;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Cim.Test
@@ -74,43 +77,38 @@ namespace Cim.Test
         [TestMethod]
         public void AddressMap_Convert테스트()
         {
-            var aa = Convert.ToUInt16("A");
-            var bb = Convert.ToChar(aa);
+            //주의! PLC는 char 가 16bit(UTF-16) 아닌, 8bit(ASCII) 이다
+            char[] chars = new char[4];
+            chars[0] = 'A';
+            chars[1] = 'B';
+            chars[2] = 'C';
+            chars[3] = 'D';
 
-            ushort[] a = new ushort[4];
-            a[0] = 41;
-            a[1] = 42;
-            a[2] = 43;
-            a[3] = 44;
+            var charsBytes = new List<byte>();
+            foreach (var item in chars)
+            {
+                charsBytes.Add(BitConverter.GetBytes(item)[0]);
+            }
 
-            //Encoding.ASCII.GetString()
+            var ushorts = new List<ushort>();
+            for (int i = 0; i < charsBytes.Count; i += 2)
+            {
+                ushorts.Add(BitConverter.ToUInt16(charsBytes.ToArray(), i));
+            }
 
-            test(a);
+            //test(ushorts);
 
         }
 
-        private void test(object value)
+        [TestMethod]
+        public void test()
         {
-            if (value is Array items)
-            {
-                ushort[] values = new ushort[items.Length];
-                for (int i = 0; i < items.Length; i++)
-                {
-                    values[i] = Convert.ToUInt16(items.GetValue(i)); //입력(value)는 무조건 ushort, ushort[] 가정한다! 
-                }
+            short a = -5512;
+            var aBit = BitConverter.GetBytes(a);
 
-                string stringVaue = null;
-                foreach (var item in values)
-                {
-                    stringVaue += Convert.ToChar(item);
-                }
-                
-                //var b = AddressData.ConvertValue(values, DataType.String);
-                
-            }
-            else
-            {
-            }
+            var c = BitConverter.ToUInt16(aBit, 0);
+
+            var b = Convert.ToUInt16(a);
             
         }
 
@@ -150,6 +148,38 @@ namespace Cim.Test
         {
             var config = new DefaultConfigManager();
             config.Init();
+        }
+
+        [TestMethod]
+        public void AddressMap_Map테스트()
+        {
+            var mapping = new MapperConfigurationExpression();
+
+            mapping.CreateMap<AddressMap, AddressMap>();
+            mapping.CreateMap<AddressMap, ModbusAddressMap>();
+            mapping.CreateMap<AddressMap, AddressData>();
+            mapping.CreateMap<ModbusAddressMap, AddressData>();
+            mapping.CreateMap<AddressData, AddressDataWrapper>();
+
+            var config = new MapperConfiguration(mapping);
+            var Mapper = new Mapper(config);
+
+            string deviceName = "Device";
+            var addressMaps = new List<AddressMap>
+            {
+                new AddressMap(deviceName, "1", "D1"),
+                new AddressMap(deviceName, "2", "D2"),
+                new AddressMap(deviceName, "3", "D3"),
+                new AddressMap(deviceName, "4", "D4"),
+                new AddressMap(deviceName, "5", "D5"),
+                new AddressMap(deviceName, "6", "D7.1"),
+                new AddressMap(deviceName, "7", "D7.2"),
+                new AddressMap(deviceName, "8", "D7.3"),
+            };
+
+            var a = Mapper.Map<List<AddressData>>(addressMaps);
+            var b = Mapper.Map<List<AddressDataWrapper>>(a);
+            var c = Mapper.Map<List<AddressDataWrapper>>(addressMaps);
         }
 
     }

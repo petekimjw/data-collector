@@ -53,12 +53,19 @@ namespace Cim.Domain.Manager
         }
 
         private ObservableCollection<IDataCollect> _DataCollects = new ObservableCollection<IDataCollect>();
+        /// <summary>
+        /// 수집로직별 DataCollect (예 TimerDataCollect, EventDataCollect)
+        /// </summary>
         public ObservableCollection<IDataCollect> DataCollects
         {
             get { return _DataCollects; }
             set { Set(ref _DataCollects, value); }
         }
 
+        /// <summary>
+        /// 모니터링용 IDataCollect
+        /// </summary>
+        public DataCollectBase MonitorDataCollect { get; set; }
 
         private List<ITransfer> transfers { get; set; } = new List<ITransfer>();
 
@@ -129,6 +136,8 @@ namespace Cim.Domain.Manager
         public virtual void InitDataCollects(ObservableCollection<AddressMap> addressMaps)
         {
             Stop();
+
+            MonitorDataCollect = new DataCollectBase(Driver, addressMaps.ToList(), "Monitor");
 
             DataCollects?.Clear();
 

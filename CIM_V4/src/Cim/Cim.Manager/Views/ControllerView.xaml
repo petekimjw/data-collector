@@ -60,21 +60,8 @@
 
             <TextBlock Text="Controller" Style="{StaticResource TitleTextBlockStyle}" Width="200"/>
 
-            <!--<telerik:RadGridView x:Name="ControllerGridView" Grid.Row="1" Grid.Column="0" Margin="5 30 5 5" 
-                                 ItemsSource="{Binding ControllerManagers}" SelectedItem="{Binding SelectedControllerManager}">
-                <telerik:RadGridView.Columns>
-                    <wpf:RowNumColumn Width="50" CellStyle="{StaticResource RowNumColumnStyle}" TooltipTemplate="{StaticResource IdTooltipTemplate}" Background="#10646464" Header="#" HeaderTextAlignment="Center" />
-
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Controller.Name}" Header="Name" />
-
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Controller.Ip}" Header="Ip" />
-
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Driver.Status}" Header="Status" />
-                </telerik:RadGridView.Columns>
-            </telerik:RadGridView>-->
-
             <telerik:RadListBox Grid.Row="1" Grid.Column="0" Margin="5 30 5 5" BorderBrush="{telerik:GreenResource ResourceKey=MarkerBrush}"
-                                ItemsSource="{Binding ControllerManagers}" SelectedItem="{Binding SelectedControllerManager}">
+                                ItemsSource="{Binding ControllerManagers}" SelectedItem="{Binding SelectedControllerManager, Mode=TwoWay}" >
                 <telerik:RadListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid >
@@ -118,26 +105,30 @@
                 <telerik:RadGridView.Columns>
                     <wpf:RowNumColumn Width="50" CellStyle="{StaticResource RowNumColumnStyle}" TooltipTemplate="{StaticResource IdTooltipTemplate}" Background="#10646464" Header="#" HeaderTextAlignment="Center" />
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding DataCategory}" Header="DataCetegory" />
-                    
-                    <telerik:GridViewDataColumn Width="200" DataMemberBinding="{Binding VariableId}" Header="VariableId" />
+                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding DataCategory}" Header="DataCetegory" TextAlignment="Center"/>
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Address}" Header="Address" />
+                    <telerik:GridViewDataColumn Width="130" DataMemberBinding="{Binding VariableId}" Header="VariableId" TextAlignment="Center"/>
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Size}" Header="Size" />
+                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Address}" Header="Address" TextAlignment="Center"/>
 
-                    <telerik:GridViewDataColumn Width="110" DataMemberBinding="{Binding DeciamlPoint}" Header="DeciamlPoint" />
+                    <telerik:GridViewDataColumn Width="50" DataMemberBinding="{Binding Size}" Header="Size" TextAlignment="Right"/>
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Description}" Header="Description" />
+                    <telerik:GridViewDataColumn Width="100" DataMemberBinding="{Binding DeciamlPoint}" Header="DeciamlPoint" TextAlignment="Right"/>
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Group}" Header="Group" />
+                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Description}" Header="Description" TextAlignment="Center"/>
 
-                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Value}" Header="Value" />
+                    <telerik:GridViewDataColumn Width="90" DataMemberBinding="{Binding Group}" Header="Group" TextAlignment="Center"/>
+
+                    <telerik:GridViewDataColumn Width="60" DataMemberBinding="{Binding Value1}" Header="Value1" TextAlignment="Right"/>
+                    <telerik:GridViewDataColumn Width="60" DataMemberBinding="{Binding Value2}" Header="Value2" TextAlignment="Right"/>
+                    <telerik:GridViewDataColumn Width="60" DataMemberBinding="{Binding Value3}" Header="Value3" TextAlignment="Right"/>
+                    <telerik:GridViewDataColumn Width="60" DataMemberBinding="{Binding Value4}" Header="Value4" TextAlignment="Right"/>
+                    <telerik:GridViewDataColumn Width="60" DataMemberBinding="{Binding Value5}" Header="Value5" TextAlignment="Right"/>
 
                 </telerik:RadGridView.Columns>
                 <i:Interaction.Behaviors>
                     <wpf:GridViewScrollIntoViewBehavior IsScrollIntoView="True" />
-                    <wpf:GridViewSelectedItemsBehavior SelectedItems="{Binding SelectedControllerManager, Mode=TwoWay}" />
+                    <wpf:GridViewSelectedItemsBehavior SelectedItems="{Binding SelectedAddressDatas, Mode=TwoWay}" />
                 </i:Interaction.Behaviors>
             </telerik:RadGridView>
 

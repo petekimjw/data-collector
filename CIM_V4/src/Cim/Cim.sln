@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cim.Test", "Cim.Test\Cim.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cim.Manager", "Cim.Manager\Cim.Manager.csproj", "{A16814C2-B419-4161-975F-82B759E6B09B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tectone", "Tectone", "{6792CF42-6055-4FC5-A38B-095351169AD8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Tectone", "_Tectone", "{6792CF42-6055-4FC5-A38B-095351169AD8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tectone.Common", "..\..\..\..\core-dotnet\Tectone.Common\Tectone.Common.csproj", "{6A2DE030-769E-4C6D-8B89-C76ED4F22A3A}"
 EndProject

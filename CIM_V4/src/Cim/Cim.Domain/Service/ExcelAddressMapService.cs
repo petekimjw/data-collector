@@ -30,7 +30,7 @@ namespace Cim.Domain.Service
     {
         public ExcelAddressMapService()
         {
-            base.logger = LogManager.GetCurrentClassLogger();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Cim.Domain.Service
                 sheet.Cell("A2").Value = "item";
                 sheet.Cell("B2").Value = "0";
                 sheet.Cell("C2").Value = "1";
-                sheet.Cell("D2").Value = "int";
+                sheet.Cell("D2").Value = "word";
                 sheet.Cell("E2").Value = "0";
 
                 workbook.SaveAs(fileName);

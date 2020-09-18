@@ -18,7 +18,7 @@ namespace Cim.Domain.Service
 
         public ExcelAddressMapParser()
         {
-            base.logger = LogManager.GetCurrentClassLogger();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         #region ParseAddressMap
@@ -164,8 +164,30 @@ namespace Cim.Domain.Service
         public virtual (string, DataType) ParseDataType(List<string> columns, IXLTableRow row)
         {
             (var index, var cell) = GetCellValue(columns, row, "datatype,타입");
+
             if (Enum.TryParse<DataType>(cell, out DataType dataType))
                 return (cell, dataType);
+
+            //아래의 타입 검사는 if--else 이므로 성능을 고려하여, 많이 발생하는 순서로 작성 요망
+            if (cell.ToLower() == "bit" || cell.ToLower() == "bool" || cell.ToLower() == "boolean")
+                dataType = DataType.Bit;
+            else if (cell.ToLower() == "short" || cell.ToLower() == "word" || cell.ToLower() == "word16" || cell.ToLower() == "int16")
+                dataType = DataType.Word16;
+            else if (cell.ToLower() == "int" || cell.ToLower() == "word2" || cell.ToLower() == "word32" || cell.ToLower() == "int32")
+                dataType = DataType.Word32;
+
+            else if (cell.ToLower() == "string" || cell.ToLower() == "ascii" || cell.ToLower() == "asc" || cell.ToLower() == "text")
+                dataType = DataType.String;
+
+            else if (cell.ToLower() == "ushort" || cell.ToLower() == "unsinged word")
+                dataType = DataType.WordU16;
+            else if (cell.ToLower() == "uint")
+                dataType = DataType.WordU32;
+
+            else if (cell.ToLower() == "float" || cell.ToLower() == "real32")
+                dataType = DataType.Real32;
+            else if (cell.ToLower() == "double" || cell.ToLower() == "real64")
+                dataType = DataType.Real64;
 
             return (cell, DataType.None);
         }
@@ -200,7 +222,7 @@ namespace Cim.Domain.Service
     {
         public ModbusExcelAddressMapParser()
         {
-            base.logger = LogManager.GetCurrentClassLogger();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         public override (int, string) ParseAddress(List<string> columns, IXLTableRow row)
@@ -230,7 +252,7 @@ namespace Cim.Domain.Service
     {
         public MelsecExcelAddressMapParser()
         {
-            base.logger = LogManager.GetCurrentClassLogger();
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         public override (int, string) ParseAddress(List<string> columns, IXLTableRow row)
