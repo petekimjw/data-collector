@@ -16,7 +16,7 @@ using Tectone.Wpf.Controls;
 
 namespace OChang.AutoCotnrol.Pie
 {
-    public class ShellViewModel: ShellViewModelBase
+    public class ShellViewModel: WindowViewModelBase
     {
 
         public override void Init()

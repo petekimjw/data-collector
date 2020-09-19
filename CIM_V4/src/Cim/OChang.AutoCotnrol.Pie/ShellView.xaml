@@ -4,7 +4,7 @@
     xmlns:local="clr-namespace:OChang.AutoCotnrol.Pie" Title="Cim V4" Width="1500" Height="450"
     Icon="lg.ico" Left="0" Top="0" WindowStyle="None" ResizeMode="CanResizeWithGrip" UseLayoutRounding="True" WindowStartupLocation="Manual"
     DataContext="{to:MvvmInstance local:ShellViewModel}"
-    Loaded="{to:XEvent Navigate, Cim.Manager.Views.ControllerView@Cim.Manager}"
+    Loaded="{to:XEvent InitWindow, $this}"
     mc:Ignorable="d">
 
     <WindowChrome.WindowChrome>
@@ -15,7 +15,8 @@
         <to:ElementSpy x:Key="spy" DataContext="{Binding}" />
     </Window.Resources>
 
-    <Grid x:Name="LayoutRoot"  Background="{telerik:GreenResource ResourceKey=PrimaryBrush}">
+    <Grid x:Name="LayoutRoot"  Background="{telerik:GreenResource ResourceKey=PrimaryBrush}" 
+          Loaded="{to:XEvent Navigate, Cim.Manager.Views.ControllerView@Cim.Manager}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -78,7 +79,7 @@
                         <Button x:Name="CloseButton" Content="&#xF00D;"
                                 Margin="0 0 5 0"
                                 Style="{StaticResource SmallIconButtonStyle}"
-                                Click="{to:XEvent CloseWindow}" />
+                                Click="{to:XEvent CloseWindow, True}" />
                     </StackPanel>
                 </Border>
             </Grid>

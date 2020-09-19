@@ -185,10 +185,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>TelerikResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="ShellViewModelBase.cs" />
+    <Compile Include="Selector\AddressMapStateStyleSelector.cs" />
+    <Compile Include="Views\AddressMapEditViewModel.cs" />
+    <Compile Include="WindowViewModelBase.cs" />
     <Compile Include="Views\AddressDataWrapper.cs" />
-    <Compile Include="Views\AddressMapEditWindow.xaml.cs">
-      <DependentUpon>AddressMapEditWindow.xaml</DependentUpon>
+    <Compile Include="Views\AddressMapEditView.xaml.cs">
+      <DependentUpon>AddressMapEditView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ControllerView.xaml.cs">
       <DependentUpon>ControllerView.xaml</DependentUpon>
@@ -198,11 +200,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Resource Include="Themes\Telerik.Windows.Controls.Data.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Resource>
     <Page Include="Themes\Telerik.Windows.Controls.RibbonView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AddressMapEditWindow.xaml">
+    <Page Include="Views\AddressMapEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,7 @@
 ﻿using Cim.Domain.Model;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace Cim.Manager.Views
         /// <summary>
         /// 모델의 변경상태
         /// </summary>
+        [Browsable(false)]
         public State State
         {
             get { return _State; }
@@ -30,6 +32,7 @@ namespace Cim.Manager.Views
         }
 
         private bool _IsSelected;
+        [Browsable(false)]
         public bool IsSelected
         {
             get { return _IsSelected; }
@@ -37,6 +40,7 @@ namespace Cim.Manager.Views
         }
 
         private DateTime _LastDataCollectTime;
+        [Browsable(false)]
         public DateTime LastDataCollectTime
         {
             get { return _LastDataCollectTime; }
@@ -45,6 +49,7 @@ namespace Cim.Manager.Views
 
 
         private object _Value1;
+        [Browsable(false)]
         public object Value1
         {
             get { return _Value1; }
@@ -52,6 +57,7 @@ namespace Cim.Manager.Views
         }
 
         private object _Value2;
+        [Browsable(false)]
         public object Value2
         {
             get { return _Value2; }
@@ -59,6 +65,7 @@ namespace Cim.Manager.Views
         }
 
         private object _Value3;
+        [Browsable(false)]
         public object Value3
         {
             get { return _Value3; }
@@ -66,6 +73,7 @@ namespace Cim.Manager.Views
         }
 
         private object _Value4;
+        [Browsable(false)]
         public object Value4
         {
             get { return _Value4; }
@@ -73,6 +81,7 @@ namespace Cim.Manager.Views
         }
 
         private object _Value5;
+        [Browsable(false)]
         public object Value5
         {
             get { return _Value5; }

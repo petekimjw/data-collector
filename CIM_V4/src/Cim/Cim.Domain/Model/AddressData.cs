@@ -1,6 +1,7 @@
 ﻿using NLog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.ServiceModel.PeerResolvers;
 using System.Text;
@@ -36,6 +37,7 @@ namespace Cim.Domain.Model
         //public DataCategory DataCategory { get; set; } = DataCategory.Data;
 
         private DateTime _Time;
+        [Browsable(false)]
         public DateTime Time
         {
             get { return _Time; }
@@ -43,6 +45,7 @@ namespace Cim.Domain.Model
         }
 
         private object _Value;
+        [Browsable(false)]
         public object Value
         {
             get { return _Value; }
@@ -53,6 +56,7 @@ namespace Cim.Domain.Model
             }
         }
 
+        [Browsable(false)]
         public List<byte> RawValues { get; set; }
 
         #region ConvertUShortValues

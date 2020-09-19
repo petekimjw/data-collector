@@ -8,16 +8,24 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Tectone.Common.Mvvm;
+using Tectone.Common.Utils;
 using Tectone.Wpf.Controls;
 
 namespace Cim.Manager
 {
-    public abstract class ShellViewModelBase : ViewModelBase
+    public abstract class WindowViewModelBase : ViewModelBase
     {
+
+        protected Window ThisWindow = null;
 
         public override void Init()
         {
+            
+        }
 
+        public void InitWindow(UIElement control)
+        {
+            ThisWindow = control.AncestorsAndSelf<Window>()?.FirstOrDefault();
         }
 
         #region 창 제어
@@ -34,7 +42,7 @@ namespace Cim.Manager
             if (e.ClickCount == 2)
             {
                 //헤더 더블클릭
-                if (MainWindow?.WindowState == WindowState.Normal)
+                if (ThisWindow?.WindowState == WindowState.Normal)
                 {
                     MaximizeWindow();
                 }
@@ -48,7 +56,7 @@ namespace Cim.Manager
                 try
                 {
                     if (e.ChangedButton == MouseButton.Left && e.LeftButton == MouseButtonState.Pressed)
-                        MainWindow?.DragMove();
+                        ThisWindow?.DragMove();
 
                 }
                 catch (Exception ex)
@@ -60,42 +68,51 @@ namespace Cim.Manager
 
         public virtual void MinimizeWindow()
         {
-            MainWindow.WindowState = WindowState.Minimized;
+            ThisWindow.WindowState = WindowState.Minimized;
         }
 
         public virtual void MaximizeWindow()
         {
-            var MaximizeButton = MainWindow.FindName("MaximizeButton") as Button;
-            var RestoreMaxButton = MainWindow.FindName("RestoreMaxButton") as Button;
+            var MaximizeButton = ThisWindow.FindName("MaximizeButton") as Button;
+            var RestoreMaxButton = ThisWindow.FindName("RestoreMaxButton") as Button;
             MaximizeButton.Visibility = Visibility.Collapsed;
             RestoreMaxButton.Visibility = Visibility.Visible;
 
-            MainWindow.WindowState = WindowState.Maximized;
+            ThisWindow.WindowState = WindowState.Maximized;
         }
 
         public virtual void RestoreMaxWindow()
         {
-            var MaximizeButton = MainWindow.FindName("MaximizeButton") as Button;
-            var RestoreMaxButton = MainWindow.FindName("RestoreMaxButton") as Button;
+            var MaximizeButton = ThisWindow.FindName("MaximizeButton") as Button;
+            var RestoreMaxButton = ThisWindow.FindName("RestoreMaxButton") as Button;
             MaximizeButton.Visibility = Visibility.Visible;
             RestoreMaxButton.Visibility = Visibility.Collapsed;
 
-            MainWindow.WindowState = WindowState.Normal;
+            ThisWindow.WindowState = WindowState.Normal;
         }
 
-        public virtual void CloseWindow()
+        public virtual void CloseWindow(bool showDialog=true)
         {
             try
             {
-                RadMessageBox.Confirm("Manager를 종료하시겠습니까?", this.MainWindow, async (sender, args) =>
-                {
-                    if (args.DialogResult == true)
+                if (showDialog)
+                    RadMessageBox.Confirm("Manager를 종료하시겠습니까?", this.MainWindow, async (sender, args) =>
                     {
-
+                        if (args.DialogResult == true)
+                        {
+                            if (ThisWindow == MainWindow)
+                                Application.Current.Shutdown();
+                            else
+                                ThisWindow.Close();
+                        }
+                    });
+                else
+                {
+                    if (ThisWindow == MainWindow)
                         Application.Current.Shutdown();
-                    }
-                });
-
+                    else
+                        ThisWindow.Close();
+                }
             }
             catch (Exception ex)
             {

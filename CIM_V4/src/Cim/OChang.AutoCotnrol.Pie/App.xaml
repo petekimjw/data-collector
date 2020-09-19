@@ -11,7 +11,7 @@
 
                 <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/System.Windows.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.xaml" />
-
+                <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Data.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Input.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/Cim.Manager;component/Themes/Telerik.Windows.Controls.Navigation.xaml" />
 

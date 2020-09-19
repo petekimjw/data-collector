@@ -33,6 +33,8 @@ namespace Cim.Manager.Views
 
         public virtual ObservableCollection<AddressDataWrapper> SelectedAddressDataWrappers { get; set; } = new ObservableCollection<AddressDataWrapper>();
 
+        public virtual AddressDataWrapper SelectedAddressDataWrapper { get; set; }
+
         private ConfigManagerBase configManager = null;
 
         #endregion
@@ -65,22 +67,15 @@ namespace Cim.Manager.Views
                 AlertManager.ShowAlert("Can't open Addressmap Excel !", styleName: "RedDesktopAlertStyle");
 
             SelectedControllerManager = ControllerManagers?.FirstOrDefault();
+        }
 
+        public void LoadAddressMaps()
+        {
             var addressMaps = SelectedControllerManager?.Controller.AddressMaps;
-            
             if (addressMaps?.Count > 0)
                 AddressDataWrappers = Domain.AutoMapper.Mapper.Map<ObservableCollection<AddressDataWrapper>>(addressMaps);
-
-            //데이터 수신
-            //foreach (var manager in ControllerManagers)
-            //{
-                //foreach (var dataCollect in item.DataCollects)
-                //{
-                //    dataCollect.DataReceived -= DataCollect_DataReceived;
-                //    dataCollect.DataReceived += DataCollect_DataReceived;
-                //}
-            //}
         }
+
         #endregion
 
         #region DataCollect_DataReceived
@@ -152,6 +147,57 @@ namespace Cim.Manager.Views
         public async Task SaveAddressMapAndCreateManager()
         {
 
+        }
+
+        public void AddAddressMap()
+        {
+            SelectedAddressDataWrapper = SelectedAddressDataWrappers.FirstOrDefault();
+            var vm = MvvmInstanceExtension.Create<AddressMapEditViewModel>();
+            vm.SelectedAddressDataWrapper = new AddressDataWrapper() { State = State.Insert};
+
+            window = new AddressMapEditView
+            {
+                DataContext = vm,
+            };
+            window.ShowDialog();
+        }
+        public void DeleteAddressMap()
+        {
+            SelectedAddressDataWrappers.ForEach(m => m.State = State.Delete);
+        }
+
+        public void EditAddressMap()
+        {
+            SelectedAddressDataWrapper = SelectedAddressDataWrappers.FirstOrDefault();
+            var vm = MvvmInstanceExtension.Create<AddressMapEditViewModel>();
+            vm.SelectedAddressDataWrapper = Domain.AutoMapper.Mapper.Map<AddressDataWrapper>(SelectedAddressDataWrapper);
+
+            window = new AddressMapEditView
+            {
+                DataContext = vm,
+            };
+            var result = window.ShowDialog();
+            if (result == true)
+            {
+                foreach (var item in vm.PropertyChangeds)
+                {
+                    if(item.Value != SelectedAddressDataWrapper.GetPropertyValue(item.Key))
+                    {
+                        SelectedAddressDataWrapper.State = State.Update;
+                        SelectedAddressDataWrapper.SetPropertyValue(item.Key, item.Value);
+                    }
+                }
+                //if (vm.SelectedAddressDataWrapper.State == State.Update)
+                //{
+                //    SelectedAddressDataWrapper = vm.SelectedAddressDataWrapper;
+                //}
+            }
+
+        }
+        AddressMapEditView window = null;
+        public void CloseWindow()
+        {
+            window?.Close();
         }
 
         public void Start()

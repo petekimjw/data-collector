@@ -17,9 +17,9 @@ namespace Cim.Manager.Views
     /// <summary>
     /// AddressMapEditWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AddressMapEditWindow : Window
+    public partial class AddressMapEditView : Window
     {
-        public AddressMapEditWindow()
+        public AddressMapEditView()
         {
             InitializeComponent();
         }
