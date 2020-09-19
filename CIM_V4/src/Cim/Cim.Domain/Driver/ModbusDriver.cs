@@ -15,7 +15,7 @@ namespace Cim.Domain.Driver
     /// <summary>
     /// Modbus Function Code. Bit(CoilStatus = 0, InputStatus=1) Word(InputRegister = 2, HoldingRegister =3)
     /// </summary>
-    public enum FunctionCode { Coil = 0, Input=1, InputRegister = 2, HoldingRegister =3}
+    public enum FunctionCode { None=-1, Coil = 0, Input=1, InputRegister = 2, HoldingRegister =3}
 
     public class ModbusDriver : BindableBase, IDriver
     {
@@ -80,8 +80,16 @@ namespace Cim.Domain.Driver
             try
             {
                 Plc = CreateModbusClient(Ip, Port, ReceiveTimeout);
-                result = true;
-                Status = DriverStatus.Connected;
+                if (Plc != null)
+                {
+                    result = true;
+                    Status = DriverStatus.Connected;
+                }
+                else
+                {
+                    result = false;
+                    Status = DriverStatus.Disconnected;
+                }
             }
             catch (Exception ex)
             {
@@ -97,13 +105,15 @@ namespace Cim.Domain.Driver
             bool result = false;
             try
             {
-
+                if(Plc != null)
+                    Plc.Dispose();
                 result = true;
             }
             catch (Exception ex)
             {
                 logger.Error($"ex={ex}");
             }
+            Status = DriverStatus.Disconnected;
             logger.Debug($"[{Status}] [{result}] Ip={Ip}, Port={Port}, ReceiveTimeout={ReceiveTimeout}");
             return result;
         }
@@ -145,6 +155,9 @@ namespace Cim.Domain.Driver
         {
             int error = 0;
             ushort[] results = null;
+
+            if (Plc == null) return (-1, results);
+
             //Modbus Function Code. Bit(CoilStatus = 0, InputStatus=1) Word(InputRegister = 2, HoldingRegister =3)
             var type = (FunctionCode)Enum.Parse(typeof(FunctionCode), $"{registerType}");
             try

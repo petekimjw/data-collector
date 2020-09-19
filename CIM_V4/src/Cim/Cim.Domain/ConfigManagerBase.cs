@@ -167,12 +167,15 @@ namespace Cim
         /// <summary>
         /// 어드레스맵 파싱 후 재시작(ControllerManager.InitDataCollects)
         /// </summary>
-        public async Task ReloadAddressMapAndCreateManager()
+        public async Task ReloadAddressMapAndCreateManager(string addressMapFileName=null)
         {
             Stop();
             await Task.Delay(1000);
 
-            LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers);
+            if(!string.IsNullOrEmpty(addressMapFileName))
+                LoadAddressMapAndCreateManager(addressMapFileName, Transfers);
+            else
+                LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers);
 
             Start();
         }

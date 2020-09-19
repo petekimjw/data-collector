@@ -15,7 +15,7 @@ namespace Cim.Domain.Model
 
         public override string ToString()
         {
-            return $"Time={Time}, DeviceId={DeviceId}, VariableId={VariableId}, Address={Address}, Value={Value}";
+            return $"DeviceId={DeviceId}, VariableId={VariableId}, Address={Address}, Value={Value}, Time={Time.ToString("yyyy-MM-dd HH:mm:ss.fff")}";
         }
         public AddressData()
         {

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="OChang.AutoCotnrol.Pie.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation" xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:to="http://www.tectone.co.kr" 
-    xmlns:local="clr-namespace:OChang.AutoCotnrol.Pie" Title="Cim V4" Width="1200" Height="450"
+    xmlns:local="clr-namespace:OChang.AutoCotnrol.Pie" Title="Cim V4" Width="1500" Height="450"
     Icon="lg.ico" Left="0" Top="0" WindowStyle="None" ResizeMode="CanResizeWithGrip" UseLayoutRounding="True" WindowStartupLocation="Manual"
     DataContext="{to:MvvmInstance local:ShellViewModel}"
     Loaded="{to:XEvent Navigate, Cim.Manager.Views.ControllerView@Cim.Manager}"

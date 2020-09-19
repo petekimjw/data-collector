@@ -99,7 +99,7 @@ namespace Cim.Domain.Service
                         //Controller 시트가 없으면 기본값
                         if (rows == null)
                         {
-                            addressMaps.Add(new ModbusAddressMap());
+                            addressMaps.Add(new AddressMap { FunctionCode = Driver.FunctionCode.HoldingRegister });
                         }
                         else
                         {
@@ -111,7 +111,7 @@ namespace Cim.Domain.Service
                                 switch (controller.Protocol)
                                 {
                                     case ControllerProtocol.Modbus:
-                                        input = new ModbusAddressMap();
+                                        input = new AddressMap { FunctionCode = Driver.FunctionCode.HoldingRegister };
                                         parser = new ModbusExcelAddressMapParser();
                                         break;
                                     case ControllerProtocol.Melsec:

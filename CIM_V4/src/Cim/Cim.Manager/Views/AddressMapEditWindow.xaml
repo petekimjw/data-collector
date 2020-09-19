@@ -1,0 +1,9 @@
+﻿<Window x:Class="Cim.Manager.Views.AddressMapEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:local="clr-namespace:Cim.Manager.Views" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:telerik="http://schemas.telerik.com/2008/xaml/presentation"
+        xmlns:telerik1="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls" xmlns:to="http://www.tectone.co.kr" xmlns:wpf="http://www.tectone.co.kr/wpf"
+        Title="AddressMapEditWindow"
+        Width="800" Height="450"
+        mc:Ignorable="d">
+    <Grid Background="{telerik:GreenResource ResourceKey=PrimaryBrush}" />
+</Window>

@@ -29,20 +29,20 @@ namespace Cim.Test
             var controller = new Controller { Name = deviceName };
             var addressMaps = new List<AddressMap>
             {
-                new ModbusAddressMap("Lami", "1", "1", 1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
-                new ModbusAddressMap("Lami", "2", "2",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
-                new ModbusAddressMap("Lami", "3", "3",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
-                new ModbusAddressMap("Lami", "4", "4",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
-                new ModbusAddressMap("Lami", "5", "5",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
-                new ModbusAddressMap("Lami", "6", "7.1",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
-                new ModbusAddressMap("Lami", "7", "7.2",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
-                new ModbusAddressMap("Lami", "8", "7.3",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
+                new AddressMap("Lami", "1", "1", 1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new AddressMap("Lami", "2", "2",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new AddressMap("Lami", "3", "3",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new AddressMap("Lami", "4", "4",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new AddressMap("Lami", "5", "5",  1, 0, null, 1, dataType:DataType.Word16, functionCode:FunctionCode.HoldingRegister),
+                new AddressMap("Lami", "6", "7.1",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
+                new AddressMap("Lami", "7", "7.2",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
+                new AddressMap("Lami", "8", "7.3",  1, 0, null, 1, dataType:DataType.Bit, functionCode:FunctionCode.Coil),
             };
             //var client = new ControllerManager(controller, addressMaps);
 
             //await client.ReadAddressMap(addressMaps, true);
             var timer = new TimerDataCollect(new FakeDriver(), addressMaps, 1000, null);
-            var a = timer.GroupingAddressMapsByFunctionCode(addressMaps.Cast<ModbusAddressMap>().ToList());
+            var a = timer.GroupingAddressMapsByFunctionCode(addressMaps);
         }
 
         [TestMethod]
@@ -156,9 +156,7 @@ namespace Cim.Test
             var mapping = new MapperConfigurationExpression();
 
             mapping.CreateMap<AddressMap, AddressMap>();
-            mapping.CreateMap<AddressMap, ModbusAddressMap>();
             mapping.CreateMap<AddressMap, AddressData>();
-            mapping.CreateMap<ModbusAddressMap, AddressData>();
             mapping.CreateMap<AddressData, AddressDataWrapper>();
 
             var config = new MapperConfiguration(mapping);
@@ -180,6 +178,31 @@ namespace Cim.Test
             var a = Mapper.Map<List<AddressData>>(addressMaps);
             var b = Mapper.Map<List<AddressDataWrapper>>(a);
             var c = Mapper.Map<List<AddressDataWrapper>>(addressMaps);
+        }
+
+        [TestMethod]
+        public void InheritTest()
+        {
+            var addressMap = new AddressMap() { VariableName = "1" };
+            var wrapper = new AddressDataWrapper() { VariableName = "1" };
+
+            var addressMaps = new List<AddressMap> { addressMap, wrapper };
+            var wrappers = new List<AddressDataWrapper> { wrapper };
+
+            //var a = wrappers.ConvertAll<AddressMap>();
+
+            InheritMethod1(wrapper);
+            InheritMethod2(addressMaps);
+            
+        }
+        private void InheritMethod1(AddressMap addressMap)
+        {
+
+        }
+
+        private void InheritMethod2(List<AddressMap> addressMap)
+        {
+
         }
 
     }

@@ -20,9 +20,7 @@ namespace Cim.Domain
         static AutoMapper()
         {
             BaseMapping.CreateMap<AddressMap, AddressMap>();
-            BaseMapping.CreateMap<AddressMap, ModbusAddressMap>();
             BaseMapping.CreateMap<AddressMap, AddressData>();
-            BaseMapping.CreateMap<ModbusAddressMap, AddressData>();
 
             config = new MapperConfiguration(BaseMapping); 
             Mapper = new Mapper(config);

@@ -28,17 +28,7 @@ namespace Cim.Domain.DataCollect
             var triggers = await ReadAddressMapsInternal(new List<List<AddressMap>> { triggerAddressMaps }, useSameCollectTime);
             if (triggers.All(m => m.Value?.ToString() == "1"))
             {
-
-                //var words = await ReadAddressMapsInternal(WordAddressMapsGroup, useSameCollectTime);
-                //var strings = await ReadAddressMapsInternal(StringAddressMapsGroup, useSameCollectTime);
-                //var bits = await ReadAddressMapsInternal(BitAddressMapsGroup, useSameCollectTime);
-
-                //if (words?.Count > 0)
-                //    results.AddRange(words);
-                //if (strings?.Count > 0)
-                //    results.AddRange(strings);
-                //if (bits?.Count > 0)
-                //    results.AddRange(bits);
+                results = await base.ReadAddressMaps(useSameCollectTime);
             }
 
             return results;

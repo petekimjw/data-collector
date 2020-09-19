@@ -4,14 +4,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tectone.Common.Mvvm;
 
 namespace Cim.Manager.Views
 {
     public class AddressDataWrapper : AddressData
     {
+        public override string ToString()
+        {
+            return $"{base.ToString()}, State={State}, LastDataCollectTime={LastDataCollectTime.ToString("yyyy-MM-dd HH:mm:ss.fff")}, Value1={Value1}, Value2={Value2}, Value3={Value3}, Value4={Value4}, Value5={Value5}";
+        }
         public AddressDataWrapper()
         {
 
+        }
+
+        private State _State = State.None;
+        /// <summary>
+        /// 모델의 변경상태
+        /// </summary>
+        public State State
+        {
+            get { return _State; }
+            set { Set(ref _State, value); }
         }
 
         private bool _IsSelected;

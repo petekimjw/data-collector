@@ -69,6 +69,13 @@ namespace Cim.Domain.Manager
 
         private List<ITransfer> transfers { get; set; } = new List<ITransfer>();
 
+        private bool _IsStarted;
+        public bool IsStarted
+        {
+            get { return _IsStarted; }
+            set { Set(ref _IsStarted, value); }
+        }
+
         #endregion
 
         #region 초기화
@@ -239,6 +246,7 @@ namespace Cim.Domain.Manager
                     item.DataReceived += DataCollect_DataReceived;
                     item.Start();
                 }
+                IsStarted = true;
             }
             catch (Exception ex)
             {
@@ -255,6 +263,7 @@ namespace Cim.Domain.Manager
                     item.DataReceived -= DataCollect_DataReceived;
                     item.Stop();
                 }
+                IsStarted = false;
             }
             catch (Exception ex)
             {

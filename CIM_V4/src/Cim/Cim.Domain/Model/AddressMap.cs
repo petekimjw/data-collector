@@ -43,7 +43,8 @@ namespace Cim.Domain.Model
 
         public AddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint=0, string variableName = null,
             int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
-            string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB)
+            string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB,
+            int slaveId = 1, FunctionCode functionCode = FunctionCode.None)
         {
             DeviceId = deviceId;
             VariableId = variableId;
@@ -86,6 +87,9 @@ namespace Cim.Domain.Model
             DataCategory = dataCategory;
             Description = description;
             Group = group;
+
+            SlaveId = slaveId;
+            FunctionCode = functionCode;
         }
         #endregion
 
@@ -206,44 +210,52 @@ namespace Cim.Domain.Model
         }
 
         #endregion
-    }
 
-    public class ModbusAddressMap : AddressMap
-    {
-        #region 초기화
-        public override string ToString()
-        {
-            return $"{base.ToString()}, SlaveId={SlaveId}, RegesterType={FunctionCode}";
-        }
-
-        public ModbusAddressMap() : base()
-        {
-
-        }
-
-        public ModbusAddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint = 0, string variableName=null,
-            int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
-            string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB,
-            int slaveId = 1, FunctionCode functionCode = FunctionCode.HoldingRegister)
-             : base(deviceId, variableId, address, size , decimalPoint, variableName, id, useYN, dataType, dataCategory, description, group, byteOrder)
-        {
-            Id = id;
-            IsUsed = useYN;
-            DataType = dataType;
-            DataCategory = dataCategory;
-            Description = description;
-            Group = group;
-
-            SlaveId = slaveId;
-            FunctionCode = functionCode;
-        }
-
-        #endregion
+        #region Modbus
 
         public int SlaveId { get; set; } = 1;
-        public FunctionCode FunctionCode { get; set; } = FunctionCode.HoldingRegister;
+        public FunctionCode FunctionCode { get; set; } = FunctionCode.None;
 
+        #endregion
     }
+
+    //주의! 공변성/반공변성 어려움으로 AddressMap으로 통일
+    //public class ModbusAddressMap : AddressMap
+    //{
+    //    #region 초기화
+    //    public override string ToString()
+    //    {
+    //        return $"{base.ToString()}, SlaveId={SlaveId}, RegesterType={FunctionCode}";
+    //    }
+
+    //    public ModbusAddressMap() : base()
+    //    {
+
+    //    }
+
+    //    public ModbusAddressMap(string deviceId, string variableId, string address, int size =1, int decimalPoint = 0, string variableName=null,
+    //        int id=0, bool useYN=true, DataType dataType=DataType.Word16, DataCategory dataCategory=DataCategory.Data, 
+    //        string description=null, string group=null, ByteOrder byteOrder = ByteOrder.CDAB,
+    //        int slaveId = 1, FunctionCode functionCode = FunctionCode.HoldingRegister)
+    //         : base(deviceId, variableId, address, size , decimalPoint, variableName, id, useYN, dataType, dataCategory, description, group, byteOrder)
+    //    {
+    //        Id = id;
+    //        IsUsed = useYN;
+    //        DataType = dataType;
+    //        DataCategory = dataCategory;
+    //        Description = description;
+    //        Group = group;
+
+    //        SlaveId = slaveId;
+    //        FunctionCode = functionCode;
+    //    }
+
+    //    #endregion
+
+    //    public int SlaveId { get; set; } = 1;
+    //    public FunctionCode FunctionCode { get; set; } = FunctionCode.None;
+
+    //}
 
     
 }

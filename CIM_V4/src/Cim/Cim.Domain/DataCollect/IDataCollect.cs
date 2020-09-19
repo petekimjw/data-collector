@@ -79,8 +79,8 @@ namespace Cim.Domain.DataCollect
         {
             Dictionary<string, List<List<AddressMap>>> addressMapsGroup = null;
 
-            if (addressMaps?.FirstOrDefault() is ModbusAddressMap)
-                addressMapsGroup = GroupingAddressMapsByFunctionCode(addressMaps.Cast<ModbusAddressMap>().ToList());
+            if (addressMaps?.FirstOrDefault()?.FunctionCode != FunctionCode.None)
+                addressMapsGroup = GroupingAddressMapsByFunctionCode(addressMaps.ToList());
             else
                 addressMapsGroup = GroupingAddressMapsByDataType(addressMaps.ToList());
             
@@ -169,9 +169,12 @@ namespace Cim.Domain.DataCollect
                 strings.Add(list);
             #endregion
 
-            results.Add("Word", words);
-            results.Add("Bit", bits);
-            results.Add("String", strings);
+            if(words?.Count > 0)
+                results.Add("Word", words);
+            if (bits?.Count > 0)
+                results.Add("Bit", bits);
+            if (strings?.Count > 0)
+                results.Add("String", strings);
 
             return results;
         }
@@ -181,7 +184,7 @@ namespace Cim.Domain.DataCollect
         /// </summary>
         /// <param name="addressMaps"></param>
         /// <returns></returns>
-        public virtual Dictionary<string, List<List<AddressMap>>> GroupingAddressMapsByFunctionCode(List<ModbusAddressMap> addressMaps)
+        public virtual Dictionary<string, List<List<AddressMap>>> GroupingAddressMapsByFunctionCode(List<AddressMap> addressMaps)
         {
             var results = new Dictionary<string, List<List<AddressMap>>>();
             var continuousMaps = new List<List<AddressMap>>();
@@ -231,10 +234,10 @@ namespace Cim.Domain.DataCollect
 
             foreach (var group in AddressMapsGroup)
             {
-                var words = await ReadAddressMapsInternal(group.Value, useSameCollectTime);
+                var datas = await ReadAddressMapsInternal(group.Value, useSameCollectTime);
 
-                if (words?.Count > 0)
-                    results.AddRange(words);
+                if (datas?.Count > 0)
+                    results.AddRange(datas);
             }
 
             return results;
@@ -257,10 +260,9 @@ namespace Cim.Domain.DataCollect
                     var start = item?.FirstOrDefault().Address;
 
                     int registerType = 1;
-                    var modbus = startAddress as ModbusAddressMap;
-                    if (modbus != null)
+                    if (startAddress?.FunctionCode != FunctionCode.None)
                     {
-                        registerType = (int)modbus.FunctionCode;
+                        registerType = (int)startAddress.FunctionCode;
                         if (ushort.TryParse(start, out ushort startUShort) == false)
                             logger.Error($"start address parse Fail! start={start}");
 
@@ -269,7 +271,7 @@ namespace Cim.Domain.DataCollect
                     else
                         (error, results) = await Driver.Read(start, 0, item.Count);
 
-                    if (error == 0 && results.Count() > 0)
+                    if (error == 0 && results?.Count() > 0)
                     {
                         for (int index = 0; index < results.Length; index++)
                         {
