@@ -1,4 +1,5 @@
-﻿using Cim.Domain.Model;
+﻿using AutoMapper.Internal;
+using Cim.Domain.Model;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Office.CustomUI;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -8,6 +9,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Tectone.Common.Extensions;
@@ -171,6 +174,25 @@ namespace Cim.Domain.Service
 
         #region ParseController
 
+        private void SetParsingPropertyInfo<T>(Expression<Func<T>> property, object input, string cellValue)
+        {
+            //if (!string.IsNullOrEmpty(cellValue))
+            //    return;
+
+            ////string propertyName = ((MemberExpression)property.Body).Member.Name;
+            //var propertyInfo = property.GetMemberInfo() as PropertyInfo;
+
+            //propertyInfo.SetValue(input, cellValue);
+            //var cellAddresses = input.GetPropertyValue("CellAddresses") as Dictionary<string, object>;
+
+            //if (cellAddresses.ContainsKey(propertyInfo.Name))
+            //    cellAddresses[propertyInfo.Name] = row.Field(index)?.Address?.ToString();
+            //else
+            //    cellAddresses.Add(propertyInfo.Name, row.Field(index)?.Address?.ToString());
+            //metaDataColumns.Remove(cellValue);
+
+        }
+
         public virtual Controller ParseController(Controller input, List<string> columns, IXLTableRow row)
         {
             if (input == null)
@@ -179,49 +201,62 @@ namespace Cim.Domain.Service
             try
             {
                 int index = -1;
-                string cell = null;
+                string cellValue = null;
+                
                 int intCell = -1;
-                ControllerProtocol protocol = ControllerProtocol.None;
+                var protocol = ControllerProtocol.None;
                 List<string> metaDataColumns = columns.DeepCopy(); //필수항목을 뺀 metaDatas 파싱할 항목
 
                 //name
-                (index, cell) = ParseControllerName(columns, row);
-                if (!string.IsNullOrEmpty(cell))
+                (index, cellValue) = ParseControllerName(columns, row);
+                if (index == -1)
                 {
-                    input.Name = cell;
-                    metaDataColumns.Remove(cell);
+                    SetErrorCell(row.Field(0), RequiredErrorString);
+                }
+                else if (string.IsNullOrEmpty(cellValue))
+                {
+                    SetErrorCell(row.Field(index), RequiredErrorString);
+                }
+                else
+                {
+                    input.Name = cellValue;
+                    if(input.CellAddresses.ContainsKey("Name"))
+                        input.CellAddresses["Name"] = row.Field(index)?.Address?.ToString();
+                    else
+                        input.CellAddresses.Add("Name", row.Field(index)?.Address?.ToString());
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //ip
-                (index, cell) = ParseIp(columns, row);
+                (index, cellValue) = ParseIp(columns, row);
                 if (index > -1)
                 {
-                    input.Ip = cell;
-                    metaDataColumns.Remove(cell);
+                    input.Ip = cellValue;
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //port
-                (cell, intCell) = ParsePort(columns, row);
+                (cellValue, intCell) = ParsePort(columns, row);
                 if (intCell > -1)
                 {
                     input.Port = intCell;
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //protocol
-                (cell, protocol) = ParseControllerProtocol(columns, row);      
+                (cellValue, protocol) = ParseControllerProtocol(columns, row);      
                 if (protocol != ControllerProtocol.None)
                 {
                     input.Protocol = protocol;
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //sheetname
-                (index, cell) = ParseSheetName(columns, row);
+                (index, cellValue) = ParseSheetName(columns, row);
                 if (index > -1)
                 {
-                    input.SheetNames = cell;
-                    metaDataColumns.Remove(cell);
+                    input.SheetNames = cellValue;
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 #region MetaDatas
@@ -229,8 +264,8 @@ namespace Cim.Domain.Service
                 input.MetaDatas = new Dictionary<string, string>();
                 foreach (var item in metaDataColumns)
                 {
-                    (index, cell) = GetCellValue(columns, row, item);
-                    input.MetaDatas.Add(item, cell);
+                    (index, cellValue) = GetCellValue(columns, row, item);
+                    input.MetaDatas.Add(item, cellValue);
                 }
                 #endregion
             }
@@ -411,15 +446,17 @@ namespace Cim.Domain.Service
         public (int, string) GetCellValue(List<string> columns, IXLTableRow row, string searchPattern)
         {
             int index = -1;
-            string cell = null;
+            string cellValue = null;
             var searchs = searchPattern.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+            string searchedColumn = null;
             try
             {
                 string column = null;
 
-                foreach (var item in searchs)
+                foreach (string item in searchs)
                 {
-                    column = columns.FirstOrDefault(m => m.ToLower().Contains(item));
+                    searchedColumn = item;
+                    column = columns.FirstOrDefault(m => m.ToLower().Contains(searchedColumn));
                     if (column != null)
                         break;
                 }
@@ -427,14 +464,14 @@ namespace Cim.Domain.Service
                 if (column == null)
                 {
                     logger.Warn($"FindColumnString Find Column Fail !!! searchPattern={searchPattern}");
-                    return (index, cell);
+                    return (index, cellValue);
                 }
 
                 index = columns.IndexOf(column);
                 if (index > -1)
                 {
                     //parse
-                    cell = row.Field(index).GetString();
+                    cellValue = row.Field(index).GetString();
                 }
             }
             catch (Exception ex)
@@ -442,7 +479,7 @@ namespace Cim.Domain.Service
                 logger.Error($"ex={ex}");
             }
 
-            return (index, cell);
+            return (index, cellValue);
         }
 
         #endregion

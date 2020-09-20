@@ -2,6 +2,7 @@
 using NLog;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -197,6 +198,17 @@ namespace Cim.Domain.Model
         #endregion
 
         #region 속성
+
+        private Dictionary<string, string> _CellAddresses;
+        /// <summary>
+        /// 엑셀에서 파싱시 Cell. 예) A1, B10
+        /// </summary>
+        [ReadOnly(true), Display(GroupName = "3.Etc", Order = 31)]
+        public Dictionary<string, string> CellAddresses
+        {
+            get { return _CellAddresses; }
+            set { Set(ref _CellAddresses, value); }
+        }
 
         private int _Id;
         [Display(GroupName = "3.Etc", Order = 31)]

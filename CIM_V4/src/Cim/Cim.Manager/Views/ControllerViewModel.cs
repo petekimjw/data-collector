@@ -111,7 +111,7 @@ namespace Cim.Manager.Views
 
         #endregion
 
-        #region 명령
+        #region 명령 (AddressMap)
 
         public async Task OpenAddressMapAndCreateManager()
         {
@@ -161,6 +161,7 @@ namespace Cim.Manager.Views
             };
             window.ShowDialog();
         }
+
         public void DeleteAddressMap()
         {
             SelectedAddressDataWrappers.ForEach(m => m.State = State.Delete);
@@ -194,11 +195,16 @@ namespace Cim.Manager.Views
             }
 
         }
+
         AddressMapEditView window = null;
         public void CloseWindow()
         {
             window?.Close();
         }
+
+        #endregion
+
+        #region 명령 (Controller)
 
         public void Start()
         {
@@ -211,6 +217,10 @@ namespace Cim.Manager.Views
             configManager.Stop();
             
         }
+
+        #endregion
+
+        #region 명령 (Monitoring)
 
         private int _ContinuousMonitorInterval = 5;
         public int ContinuousMonitorInterval

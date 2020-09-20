@@ -125,7 +125,7 @@
     <Compile Include="Model\DeviceStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\ExcelAddressMapParser.cs" />
-    <Compile Include="Service\DbSyncService.cs" />
+    <Compile Include="Service\PieDbSyncService.cs" />
     <Compile Include="Service\ExcelAddressMapService.cs" />
     <Compile Include="Service\IDataInputService.cs" />
     <Compile Include="Transfer\MqTransfer.cs" />

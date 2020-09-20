@@ -87,20 +87,21 @@ namespace Cim
                 AddressMapService = new ExcelAddressMapService();
 
                 //LoadAddressMaps, ControllerManagers
-                if (LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers) == false)
+                (var result, _) = LoadAddressMapAndCreateManager(CimConfig.AddressMapFileName, Transfers);
+                if (result == false)
                     return; //파싱 실패시 !!!
 
                 //t_dvc_info, t_var_info 동기화 서비스
-                var connectionString = ConfigurationManager.ConnectionStrings["pie"]?.ConnectionString;
-                if (string.IsNullOrEmpty(connectionString))
+                var connectionStrings = ConfigurationManager.ConnectionStrings["pie"];
+                if (string.IsNullOrEmpty(connectionStrings.ConnectionString))
                 {
-                    logger.Error($"connectionString Fail!={connectionString}");
+                    logger.Error($"connectionString Fail!={connectionStrings.ConnectionString}");
                     return;
                 }
                 else
                 {
-                    DbSyncService = new DbSyncService();
-                    DbSyncService.Sync(connectionString);
+                    DbSyncService = new PieDbSyncService(connectionStrings.ProviderName, connectionStrings.ConnectionString);
+                    DbSyncService.Sync(controllers);
 
                     //IDataInputService : 데이터수집을 REST로 제공
                     DataInputService = new DataInputService();
@@ -141,8 +142,10 @@ namespace Cim
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="transfers"></param>
-        private bool LoadAddressMapAndCreateManager(string fileName, IEnumerable<ITransfer> transfers)
+        private (bool, List<Controller>) LoadAddressMapAndCreateManager(string fileName, IEnumerable<ITransfer> transfers)
         {
+            ControllerManagers = new ObservableCollection<ControllerManagerBase>();
+
             //ParseAndWrite
             controllers = AddressMapService.ParseAndWrite(fileName);
             if (AddressMapService.AddressMapParseErrors?.Count > 0)
@@ -152,16 +155,15 @@ namespace Cim
                     (var a, var b) = item;
                     logger.Error($"AddressMapParseErrors={a}, {b}");
                 }
-                return false;
+                return (false, controllers);
             }
 
             //controllerManagers
-            ControllerManagers = new ObservableCollection<ControllerManagerBase>();
             foreach (var item in controllers)
             {
                 ControllerManagers.Add(new DefaultControllerManager(item, Transfers));
             }
-            return true;
+            return (true, controllers);
         }
 
         /// <summary>
