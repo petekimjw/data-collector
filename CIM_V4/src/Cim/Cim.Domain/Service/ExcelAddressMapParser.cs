@@ -44,6 +44,8 @@ namespace Cim.Domain.Service
                 {
                     input.VariableId = cell;
                     input.VariableName = cell2;
+                    input.SetCellAddress("Variableid", row.Field(index)?.Address?.ToString());
+                    input.SetCellAddress("VariableName", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cell);
                     metaDataColumns.Remove(cell2);
                 }
@@ -52,6 +54,7 @@ namespace Cim.Domain.Service
                 if (!string.IsNullOrEmpty(cell))
                 {
                     input.Address = cell;
+                    input.SetCellAddress("Address", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cell);
                 }
 
@@ -60,6 +63,7 @@ namespace Cim.Domain.Service
                 if (intCell > -1)
                 {
                     input.Size = intCell;
+                    input.SetCellAddress("Size", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cell);
                 }
 
@@ -67,7 +71,8 @@ namespace Cim.Domain.Service
                 (cell, intCell) = ParseDecimalPoint(columns, row);
                 if (intCell > -1)
                 {
-                    input.DeciamlPoint = intCell;
+                    input.DecimalPoint = intCell;
+                    input.SetCellAddress("DecimalPoint", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cell);
                 }
 
@@ -76,6 +81,7 @@ namespace Cim.Domain.Service
                 if (dataType != DataType.None)
                 {
                     input.DataType = dataType;
+                    input.SetCellAddress("DataType", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cell);
                 }
 
@@ -86,6 +92,7 @@ namespace Cim.Domain.Service
                 {
                     (index, cell) = GetCellValue(columns, row, item);
                     input.MetaDatas.Add(item, cell);
+                    input.SetCellAddress(item, row.Field(index)?.Address?.ToString());
                 }
                 #endregion
             }

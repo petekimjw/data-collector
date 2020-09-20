@@ -193,6 +193,8 @@ namespace Cim.Domain.Service
 
         }
 
+
+
         public virtual Controller ParseController(Controller input, List<string> columns, IXLTableRow row)
         {
             if (input == null)
@@ -205,25 +207,15 @@ namespace Cim.Domain.Service
                 
                 int intCell = -1;
                 var protocol = ControllerProtocol.None;
+                
                 List<string> metaDataColumns = columns.DeepCopy(); //필수항목을 뺀 metaDatas 파싱할 항목
 
                 //name
                 (index, cellValue) = ParseControllerName(columns, row);
-                if (index == -1)
-                {
-                    SetErrorCell(row.Field(0), RequiredErrorString);
-                }
-                else if (string.IsNullOrEmpty(cellValue))
-                {
-                    SetErrorCell(row.Field(index), RequiredErrorString);
-                }
-                else
+                if(!string.IsNullOrEmpty(cellValue))
                 {
                     input.Name = cellValue;
-                    if(input.CellAddresses.ContainsKey("Name"))
-                        input.CellAddresses["Name"] = row.Field(index)?.Address?.ToString();
-                    else
-                        input.CellAddresses.Add("Name", row.Field(index)?.Address?.ToString());
+                    input.SetCellAddress( "Name", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cellValue);
                 }
 
@@ -232,6 +224,7 @@ namespace Cim.Domain.Service
                 if (index > -1)
                 {
                     input.Ip = cellValue;
+                    input.SetCellAddress("Ip", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cellValue);
                 }
 
@@ -240,6 +233,7 @@ namespace Cim.Domain.Service
                 if (intCell > -1)
                 {
                     input.Port = intCell;
+                    input.SetCellAddress("Port", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cellValue);
                 }
 
@@ -248,6 +242,7 @@ namespace Cim.Domain.Service
                 if (protocol != ControllerProtocol.None)
                 {
                     input.Protocol = protocol;
+                    input.SetCellAddress("Protocol", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cellValue);
                 }
 
@@ -256,6 +251,7 @@ namespace Cim.Domain.Service
                 if (index > -1)
                 {
                     input.SheetNames = cellValue;
+                    input.SetCellAddress("SheetName", row.Field(index)?.Address?.ToString());
                     metaDataColumns.Remove(cellValue);
                 }
 
@@ -266,6 +262,7 @@ namespace Cim.Domain.Service
                 {
                     (index, cellValue) = GetCellValue(columns, row, item);
                     input.MetaDatas.Add(item, cellValue);
+                    input.SetCellAddress(item, row.Field(index)?.Address?.ToString());
                 }
                 #endregion
             }

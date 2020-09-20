@@ -31,7 +31,7 @@ namespace Cim.Domain.Model
         #region 초기화
         public override string ToString()
         {
-            return $"DeviceId={DeviceId}, Id={Id}, VariableId={VariableId}, VariableName={VariableName}, Address={Address}, Size={Size}, Scale={DeciamlPoint}, " +
+            return $"DeviceId={DeviceId}, Id={Id}, VariableId={VariableId}, VariableName={VariableName}, Address={Address}, Size={Size}, Scale={DecimalPoint}, " +
                 $"UseYN={IsUsed}, DataType={DataType}, DataCategory={DataCategory}," +
                 $"Group={Group}, ByteOrder={ByteOrder}";
         }
@@ -80,7 +80,7 @@ namespace Cim.Domain.Model
             #endregion
 
             Size = size;
-            DeciamlPoint = decimalPoint;
+            DecimalPoint = decimalPoint;
 
             Id = id;
             IsUsed = useYN;
@@ -144,7 +144,7 @@ namespace Cim.Domain.Model
         ///  소수점 자리수. 1 => 0.0, 2=> 0.00
         /// </summary>
         [Display(GroupName = "1.Required", Order = 5, Name = "Deciaml Point", Description = "Deciaml Point. Ex) 1 => 0.0, 2=> 0.00")]
-        public int DeciamlPoint
+        public int DecimalPoint
         {
             get { return _DeciamlPoint; }
             set { Set(ref _DeciamlPoint, value); }
@@ -198,17 +198,6 @@ namespace Cim.Domain.Model
         #endregion
 
         #region 속성
-
-        private Dictionary<string, string> _CellAddresses;
-        /// <summary>
-        /// 엑셀에서 파싱시 Cell. 예) A1, B10
-        /// </summary>
-        [ReadOnly(true), Display(GroupName = "3.Etc", Order = 31)]
-        public Dictionary<string, string> CellAddresses
-        {
-            get { return _CellAddresses; }
-            set { Set(ref _CellAddresses, value); }
-        }
 
         private int _Id;
         [Display(GroupName = "3.Etc", Order = 31)]
@@ -290,6 +279,27 @@ namespace Cim.Domain.Model
             set { Set(ref _FunctionCode, value); }
         }
 
+        #endregion
+
+        #region SetCellAddress
+
+        private Dictionary<string, string> _CellAddresses;
+        /// <summary>
+        /// 엑셀에서 파싱시 Cell. 예) A1, B10
+        /// </summary>
+        [ReadOnly(true), Display(GroupName = "3.Etc", Order = 31)]
+        public Dictionary<string, string> CellAddresses
+        {
+            get { return _CellAddresses; }
+            set { Set(ref _CellAddresses, value); }
+        }
+        public void SetCellAddress(string propertyName, string cellAddress)
+        {
+            if (CellAddresses.ContainsKey(propertyName))
+                CellAddresses[propertyName] = cellAddress;
+            else
+                CellAddresses.Add(propertyName, cellAddress);
+        }
 
         #endregion
     }

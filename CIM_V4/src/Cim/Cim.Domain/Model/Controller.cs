@@ -14,6 +14,8 @@ namespace Cim.Domain.Model
 
     public class Controller : BindableBase
     {
+        #region 속성
+
         private string _Name = "Controller";
         public string Name
         {
@@ -76,17 +78,6 @@ namespace Cim.Domain.Model
             set { Set(ref _IsUsed, value); }
         }
 
-        private Dictionary<string, string> _CellAddresses;
-        /// <summary>
-        /// 엑셀에서 파싱시 Cell. 예) A1, B10
-        /// </summary>
-        [ReadOnly(true), Display(GroupName = "3.Etc", Order = 31)]
-        public Dictionary<string, string> CellAddresses
-        {
-            get { return _CellAddresses; }
-            set { Set(ref _CellAddresses, value); }
-        }
-
         private int _Id = 0;
         public int Id
         {
@@ -101,5 +92,29 @@ namespace Cim.Domain.Model
             set { Set(ref _AddressMaps, value); }
         }
 
+        #endregion
+
+        #region CellAddress
+
+        private Dictionary<string, string> _CellAddresses;
+        /// <summary>
+        /// 엑셀에서 파싱시 Cell. 예) A1, B10
+        /// </summary>
+        [ReadOnly(true), Display(GroupName = "3.Etc", Order = 31)]
+        public Dictionary<string, string> CellAddresses
+        {
+            get { return _CellAddresses; }
+            set { Set(ref _CellAddresses, value); }
+        }
+
+        public void SetCellAddress(string propertyName, string cellAddress)
+        {
+            if (CellAddresses.ContainsKey(propertyName))
+                CellAddresses[propertyName] = cellAddress;
+            else
+                CellAddresses.Add(propertyName, cellAddress);
+        }
+
+        #endregion
     }
 }
