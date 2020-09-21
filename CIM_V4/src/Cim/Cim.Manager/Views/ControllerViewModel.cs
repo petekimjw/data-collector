@@ -180,7 +180,7 @@ namespace Cim.Manager.Views
             var result = window.ShowDialog();
             if (result == true)
             {
-                foreach (var item in vm.PropertyChangeds)
+                foreach (var item in vm.PropertyChangeds)//변경내용 적용
                 {
                     if(item.Value != SelectedAddressDataWrapper.GetPropertyValue(item.Key))
                     {

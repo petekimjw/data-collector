@@ -21,7 +21,7 @@ namespace Cim.Domain.Service
             logger = LogManager.GetCurrentClassLogger();
         }
 
-        #region ParseAddressMap
+        #region ParseAddressMap (override 가능)
 
         public virtual AddressMap ParseAddressMap(AddressMap input, List<string> columns, IXLTableRow row)
         {
@@ -31,58 +31,59 @@ namespace Cim.Domain.Service
             try
             {
                 int index = -1;
-                string cell = null;
-                string cell2 = null;
+                int index2 = -1;
+                string cellValue = null;
+                string cellValue2 = null;
                 int intCell = -1;
                 DataType dataType = DataType.None;
                 AddressMapParseErrors = new List<(string, string)>();
                 List<string> metaDataColumns = columns.DeepCopy(); //필수항목을 뺀 metaDatas 파싱할 항목
 
                 //VariableId, VariableName
-                (index, cell, cell2) = ParseVariableIdAndName(columns, row);
-                if (!string.IsNullOrEmpty(cell))
+                (index, cellValue, index2, cellValue2) = ParseVariableIdAndName(columns, row);
+                if (!string.IsNullOrEmpty(cellValue))
                 {
-                    input.VariableId = cell;
-                    input.VariableName = cell2;
+                    input.VariableId = cellValue;
+                    input.VariableName = cellValue2;
                     input.SetCellAddress("Variableid", row.Field(index)?.Address?.ToString());
-                    input.SetCellAddress("VariableName", row.Field(index)?.Address?.ToString());
-                    metaDataColumns.Remove(cell);
-                    metaDataColumns.Remove(cell2);
+                    input.SetCellAddress("VariableName", row.Field(index2)?.Address?.ToString());
+                    metaDataColumns.Remove(cellValue);
+                    metaDataColumns.Remove(cellValue2);
                 }
                 //Address
-                (index, cell) = ParseAddress(columns, row);
-                if (!string.IsNullOrEmpty(cell))
+                (index, cellValue) = ParseAddress(columns, row);
+                if (!string.IsNullOrEmpty(cellValue))
                 {
-                    input.Address = cell;
+                    input.Address = cellValue;
                     input.SetCellAddress("Address", row.Field(index)?.Address?.ToString());
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //Size
-                (cell, intCell) = ParseSize(columns, row);
+                (index, cellValue, intCell) = ParseSize(columns, row);
                 if (intCell > -1)
                 {
                     input.Size = intCell;
                     input.SetCellAddress("Size", row.Field(index)?.Address?.ToString());
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //decimalplace
-                (cell, intCell) = ParseDecimalPoint(columns, row);
+                (index, cellValue, intCell) = ParseDecimalPoint(columns, row);
                 if (intCell > -1)
                 {
                     input.DecimalPoint = intCell;
                     input.SetCellAddress("DecimalPoint", row.Field(index)?.Address?.ToString());
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 //datatype
-                (cell, dataType) = ParseDataType(columns, row);
+                (index, cellValue, dataType) = ParseDataType(columns, row);
                 if (dataType != DataType.None)
                 {
                     input.DataType = dataType;
                     input.SetCellAddress("DataType", row.Field(index)?.Address?.ToString());
-                    metaDataColumns.Remove(cell);
+                    metaDataColumns.Remove(cellValue);
                 }
 
                 #region MetaDatas (아직 파싱안한 컬럼(metaDataColumns)을 파싱)
@@ -90,8 +91,8 @@ namespace Cim.Domain.Service
                 input.MetaDatas = new Dictionary<string, string>();
                 foreach (var item in metaDataColumns)
                 {
-                    (index, cell) = GetCellValue(columns, row, item);
-                    input.MetaDatas.Add(item, cell);
+                    (index, cellValue) = GetCellValue(columns, row, item);
+                    input.MetaDatas.Add(item, cellValue);
                     input.SetCellAddress(item, row.Field(index)?.Address?.ToString());
                 }
                 #endregion
@@ -104,7 +105,7 @@ namespace Cim.Domain.Service
             return input;
         }
 
-        public virtual (int, string, string) ParseVariableIdAndName(List<string> columns, IXLTableRow row)
+        public virtual (int, string, int, string) ParseVariableIdAndName(List<string> columns, IXLTableRow row)
         {
             int index2 = -1;
             string cellValue2 = null;
@@ -141,7 +142,7 @@ namespace Cim.Domain.Service
                 }
             }
 
-            return (index, cellValue, cellValue2);
+            return (index, cellValue, index2, cellValue2);
         }
 
         public virtual (int, string) ParseAddress(List<string> columns, IXLTableRow row)
@@ -159,21 +160,21 @@ namespace Cim.Domain.Service
             return (index, cellValue);
         }
 
-        public virtual (string, int) ParseSize(List<string> columns, IXLTableRow row)
+        public virtual (int, string, int) ParseSize(List<string> columns, IXLTableRow row)
         {
             (var index, var cellValue) = GetCellValue(columns, row, "size,크기");
             if (int.TryParse(cellValue, out int size))
-                return (cellValue, size);
+                return (index, cellValue, size);
 
-            return (cellValue, size);
+            return (index, cellValue, size);
         }
 
-        public virtual (string, DataType) ParseDataType(List<string> columns, IXLTableRow row)
+        public virtual (int, string, DataType) ParseDataType(List<string> columns, IXLTableRow row)
         {
             (var index, var cellValue) = GetCellValue(columns, row, "datatype,타입");
 
             if (Enum.TryParse<DataType>(cellValue, out DataType dataType))
-                return (cellValue, dataType);
+                return (index, cellValue, dataType);
 
             //아래의 타입 검사는 if--else 이므로 성능을 고려하여, 많이 발생하는 순서로 작성 요망
             if (cellValue.ToLower() == "bit" || cellValue.ToLower() == "bool" || cellValue.ToLower() == "boolean")
@@ -196,14 +197,14 @@ namespace Cim.Domain.Service
             else if (cellValue.ToLower() == "double" || cellValue.ToLower() == "real64")
                 dataType = DataType.Real64;
 
-            return (cellValue, DataType.None);
+            return (index, cellValue, DataType.None);
         }
 
-        public virtual (string, int) ParseDecimalPoint(List<string> columns, IXLTableRow row)
+        public virtual (int, string, int) ParseDecimalPoint(List<string> columns, IXLTableRow row)
         {
             (var index, var cellValue) = GetCellValue(columns, row, "decimalpoint,소수점");
             if (int.TryParse(cellValue, out int decimalpoint))
-                return (cellValue, decimalpoint);
+                return (index, cellValue, decimalpoint);
             else
             {
                 //문자열로 소수점 표시 예) 00.00
@@ -211,7 +212,7 @@ namespace Cim.Domain.Service
                 //Scale로 소수점 표시
             }
 
-            return (cellValue, decimalpoint);
+            return (index, cellValue, decimalpoint);
         }
 
         public virtual AddressMap ParseCustomAddressMap(AddressMap input, List<string> columns, IXLTableRow row)

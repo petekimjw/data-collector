@@ -283,7 +283,7 @@ namespace Cim.Domain.Model
 
         #region SetCellAddress
 
-        private Dictionary<string, string> _CellAddresses;
+        private Dictionary<string, string> _CellAddresses = new Dictionary<string, string>();
         /// <summary>
         /// 엑셀에서 파싱시 Cell. 예) A1, B10
         /// </summary>

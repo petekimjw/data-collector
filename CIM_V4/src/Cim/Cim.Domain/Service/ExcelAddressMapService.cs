@@ -172,8 +172,15 @@ namespace Cim.Domain.Service
             return controllers;
         }
 
-        #region ParseController
+        #region ParseController (override 가능)
 
+        /// <summary>
+        /// 사용안함
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="property"></param>
+        /// <param name="input"></param>
+        /// <param name="cellValue"></param>
         private void SetParsingPropertyInfo<T>(Expression<Func<T>> property, object input, string cellValue)
         {
             //if (!string.IsNullOrEmpty(cellValue))
@@ -192,8 +199,6 @@ namespace Cim.Domain.Service
             //metaDataColumns.Remove(cellValue);
 
         }
-
-
 
         public virtual Controller ParseController(Controller input, List<string> columns, IXLTableRow row)
         {
@@ -229,7 +234,7 @@ namespace Cim.Domain.Service
                 }
 
                 //port
-                (cellValue, intCell) = ParsePort(columns, row);
+                (index, cellValue, intCell) = ParsePort(columns, row);
                 if (intCell > -1)
                 {
                     input.Port = intCell;
@@ -238,7 +243,7 @@ namespace Cim.Domain.Service
                 }
 
                 //protocol
-                (cellValue, protocol) = ParseControllerProtocol(columns, row);      
+                (index, cellValue, protocol) = ParseControllerProtocol(columns, row);      
                 if (protocol != ControllerProtocol.None)
                 {
                     input.Protocol = protocol;
@@ -276,56 +281,66 @@ namespace Cim.Domain.Service
 
         public virtual (int, string) ParseControllerName(List<string> columns, IXLTableRow row)
         {
-            (var index, var cell) = GetCellValue(columns, row, "name,이름");
+            (var index, var cellValue) = GetCellValue(columns, row, "name,이름");
             if (index == -1)
             {
                 SetErrorCell(row.Field(0), RequiredErrorString);
             }
-            else if (string.IsNullOrEmpty(cell))
+            else if (string.IsNullOrEmpty(cellValue))
             {
                 SetErrorCell(row.Field(index), RequiredErrorString);
             }
             else
             {
-                //특수문자, 공백 제거
-
+                //특수문자(&,',",<,>,%,#,$), 공백 제거
+                var temp = cellValue.Replace(" ", "_");
+                foreach (var item in EscapeCharacters)
+                {
+                    temp = temp.Replace(item, "");
+                }
+                if (temp != cellValue)
+                {
+                    cellValue = temp;
+                    row.Field(index).Value = temp;
+                    SetWarningCell(row.Field(index), "");
+                }
             }
 
-            return (index, cell);
+            return (index, cellValue);
         }
 
         public virtual (int, string) ParseIp(List<string> columns, IXLTableRow row)
         {
-            (var index, var cell) = GetCellValue(columns, row, "ip,아이피");
+            (var index, var cellValue) = GetCellValue(columns, row, "ip,아이피");
             if (index > -1)
-                return (index, cell);
+                return (index, cellValue);
             else
                 return (index, null);
         }
 
-        public virtual (string, int) ParsePort(List<string> columns, IXLTableRow row)
+        public virtual (int, string, int) ParsePort(List<string> columns, IXLTableRow row)
         {
-            (var index, var cell) = GetCellValue(columns, row, "port,포트");
-            if (int.TryParse(cell, out int port))
-                return (cell, port);
+            (var index, var cellValue) = GetCellValue(columns, row, "port,포트");
+            if (int.TryParse(cellValue, out int port))
+                return (index, cellValue, port);
 
-            return (cell, port);
+            return (index, cellValue, port);
         }
 
-        public virtual (string, ControllerProtocol) ParseControllerProtocol(List<string> columns, IXLTableRow row)
+        public virtual (int, string, ControllerProtocol) ParseControllerProtocol(List<string> columns, IXLTableRow row)
         {
-            (var index, var cell) = GetCellValue(columns, row, "protocol,프로토콜");
-            if (Enum.TryParse<ControllerProtocol>(cell, out ControllerProtocol protocol))
-                return (cell, protocol);
+            (var index, var cellValue) = GetCellValue(columns, row, "protocol,프로토콜");
+            if (Enum.TryParse<ControllerProtocol>(cellValue, out ControllerProtocol protocol))
+                return (index, cellValue, protocol);
 
-            return (cell, ControllerProtocol.None);
+            return (index, cellValue, ControllerProtocol.None);
         }
 
         public virtual (int, string) ParseSheetName(List<string> columns, IXLTableRow row)
         {
-            (var index, var cell) = GetCellValue(columns, row, "sheetname,시트");
+            (var index, var cellValue) = GetCellValue(columns, row, "sheetname,시트");
             if (index > -1)
-                return (index, cell);
+                return (index, cellValue);
             else
                 return (index, null);
         }

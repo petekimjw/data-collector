@@ -124,23 +124,31 @@
                             <!--<TextBlock Text="&#xf0a9;"
                                        Grid.Row="0" Grid.Column="0" Margin="5 5" HorizontalAlignment="Left"
                                        Style="{StaticResource SmallIconTextBlockStyle}" />-->
-                            <TextBox Text="Controller :" Style="{StaticResource FormLabelTextBoxStyle}" FontSize="14" Width="Auto"
-                                       Grid.Row="0" Grid.Column="0" Margin="5 2" HorizontalAlignment="Left" />
+                            <TextBox Text="Controller :"
+                                     Grid.Row="0" Grid.Column="0" Width="Auto" Margin="5 2" HorizontalAlignment="Left"
+                                     Style="{StaticResource FormLabelTextBoxStyle}"
+                                     FontSize="14" />
                             <TextBlock Text="{Binding Controller.Name}"
                                        Grid.Row="0" Grid.Column="1" Margin="5 2" />
 
-                            <TextBox Text="Ip :" Style="{StaticResource FormLabelTextBoxStyle}" FontSize="14" Width="Auto"
-                                       Grid.Row="1" Grid.Column="0" Margin="5 2" HorizontalAlignment="Left" />
+                            <TextBox Text="Ip :"
+                                     Grid.Row="1" Grid.Column="0" Width="Auto" Margin="5 2" HorizontalAlignment="Left"
+                                     Style="{StaticResource FormLabelTextBoxStyle}"
+                                     FontSize="14" />
                             <TextBlock Text="{Binding Controller.Ip}"
                                        Grid.Row="1" Grid.Column="1" Margin="5 2" />
 
-                            <TextBox Text="Status :" Style="{StaticResource FormLabelTextBoxStyle}" FontSize="14" Width="Auto"
-                                       Grid.Row="2" Grid.Column="0" Margin="5 2" HorizontalAlignment="Left" />
+                            <TextBox Text="Status :"
+                                     Grid.Row="2" Grid.Column="0" Width="Auto" Margin="5 2" HorizontalAlignment="Left"
+                                     Style="{StaticResource FormLabelTextBoxStyle}"
+                                     FontSize="14" />
                             <TextBlock Text="{Binding Driver.Status}"
                                        Grid.Row="2" Grid.Column="1" Margin="5 2" />
 
-                            <TextBox Text="Started :" Style="{StaticResource FormLabelTextBoxStyle}" FontSize="14" Width="Auto"
-                                       Grid.Row="3" Grid.Column="0" Margin="5 2" HorizontalAlignment="Left" />
+                            <TextBox Text="Started :"
+                                     Grid.Row="3" Grid.Column="0" Width="Auto" Margin="5 2" HorizontalAlignment="Left"
+                                     Style="{StaticResource FormLabelTextBoxStyle}"
+                                     FontSize="14" />
                             <TextBlock Text="{Binding IsStarted}"
                                        Grid.Row="3" Grid.Column="1" Margin="5 2" />
 
@@ -155,12 +163,15 @@
                       Background="{telerik:GreenResource ResourceKey=PrimaryBrush}" />
 
         <Grid Grid.Row="1" Grid.Column="1" Margin="5 0 0 0">
-            <TextBox Text="Controller" Style="{StaticResource FormLabelTextBoxStyle}" Margin="10 0" FontWeight="Bold" FontSize="20" />
+            <TextBox Text="Controller"
+                     Margin="10 0"
+                     Style="{StaticResource FormLabelTextBoxStyle}"
+                     FontSize="20" FontWeight="Bold" />
 
             <telerik:RadGridView x:Name="AddressMapGridView"
-                                 Grid.Row="1" Grid.Column="1" Margin="5 30 5 5" RowStyleSelector="{StaticResource AddressMapStateStyleSelector}"
-                                 ItemsSource="{Binding AddressDataWrappers}" MouseDoubleClick="{to:XEvent EditAddressMap}"
-                                 SelectionUnit="FullRow" ValidatesOnDataErrors="InViewMode" ValidationType="IDataErrorInfo">
+                                 Grid.Row="1" Grid.Column="1" Margin="5 30 5 5"
+                                 ItemsSource="{Binding AddressDataWrappers}"
+                                 MouseDoubleClick="{to:XEvent EditAddressMap}" RowStyleSelector="{StaticResource AddressMapStateStyleSelector}" SelectionUnit="FullRow" ValidatesOnDataErrors="InViewMode" ValidationType="IDataErrorInfo">
 
                 <telerik:RadGridView.Columns>
                     <wpf:RowNumColumn Header="#" Width="50" CellStyle="{StaticResource RowNumColumnStyle}" TooltipTemplate="{StaticResource IdTooltipTemplate}" Background="#10646464" HeaderTextAlignment="Center" />
@@ -176,8 +187,6 @@
                     <telerik:GridViewDataColumn Header="Size" Width="50" DataMemberBinding="{Binding Size}" TextAlignment="Right" />
 
                     <telerik:GridViewDataColumn Header="DeciamlPoint" Width="100" DataMemberBinding="{Binding DeciamlPoint}" TextAlignment="Right" />
-
-                    <telerik:GridViewDataColumn Header="Description" Width="90" DataMemberBinding="{Binding Description}" TextAlignment="Center" />
 
                     <telerik:GridViewDataColumn Header="Group" Width="90" DataMemberBinding="{Binding Group}" TextAlignment="Center" />
 
